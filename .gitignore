@@ -53,7 +53,7 @@ Cat Cafe Simulator/*.pdb.meta
 Cat Cafe Simulator/*.mdb.meta
 
 # Unity3D generated file on crash reports
-sysinfo.txt
+Cat Cafe Simulator/sysinfo.txt
 
 # Builds
 Cat Cafe Simulator/*.apk
