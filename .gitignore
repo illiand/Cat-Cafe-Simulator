@@ -48,25 +48,25 @@ Cat Cafe Simulator/*.opendb
 Cat Cafe Simulator/*.VC.db
 
 # Unity3D generated meta files
-*.pidb.meta
-*.pdb.meta
-*.mdb.meta
+Cat Cafe Simulator/*.pidb.meta
+Cat Cafe Simulator/*.pdb.meta
+Cat Cafe Simulator/*.mdb.meta
 
 # Unity3D generated file on crash reports
 sysinfo.txt
 
 # Builds
-*.apk
-*.aab
-*.unitypackage
-*.app
+Cat Cafe Simulator/*.apk
+Cat Cafe Simulator/*.aab
+Cat Cafe Simulator/*.unitypackage
+Cat Cafe Simulator/*.app
 
 # Crashlytics generated file
-crashlytics-build.properties
+Cat Cafe Simulator/crashlytics-build.properties
 
 # Packed Addressables
-/[Aa]ssets/[Aa]ddressable[Aa]ssets[Dd]ata/*/*.bin*
+Cat Cafe Simulator/[Aa]ssets/[Aa]ddressable[Aa]ssets[Dd]ata/*/*.bin*
 
 # Temporary auto-generated Android Assets
-/[Aa]ssets/[Ss]treamingAssets/aa.meta
-/[Aa]ssets/[Ss]treamingAssets/aa/*
+Cat Cafe Simulator/[Aa]ssets/[Ss]treamingAssets/aa.meta
+Cat Cafe Simulator/[Aa]ssets/[Ss]treamingAssets/aa/*
