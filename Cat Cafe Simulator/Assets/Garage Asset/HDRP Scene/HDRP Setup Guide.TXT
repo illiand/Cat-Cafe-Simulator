@@ -1,0 +1,3 @@
+Thank you for purchasing HD Garage Mobile
+
+if you are facing issues regarding to HDRP, in order to quick setup, create an empty project but make sure you selected HDRP template, then simply import this garage to fix all lighting issues
