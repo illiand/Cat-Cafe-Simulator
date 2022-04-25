@@ -8,11 +8,14 @@ public class Character : MonoBehaviour
     public Cat[] cats;
     public Toy[] toys;
     public Action[] actions;
+    public Animator catAnim;
 
     // Start is called before the first frame update
     void Start()
-    {
+    { 
       initData();
+
+      catAnim = GetComponent<Animator>();
     }
 
     // Update is called once per frame
@@ -291,6 +294,8 @@ public class Character : MonoBehaviour
 
       data.actionPoint -= 1;
 
+      //catReaction(name);
+
       for(int i = 0; i < data.curCatStatus.cat.yesAction.Length; i += 1)
       {
         if(name == data.curCatStatus.cat.yesAction[i])
@@ -344,6 +349,8 @@ public class Character : MonoBehaviour
         return;
       }
 
+      //catReaction(name);
+
       data.preUsedToy = name;
 
       for(int i = 0; i < data.curToys.Length; i += 1)
@@ -377,6 +384,92 @@ public class Character : MonoBehaviour
       }
     }
 
+    void catReaction(string action)
+    {   
+        //preferred Action
+        for(int i = 0; i < data.curCatStatus.cat.yesAction.Length; i += 1)
+        {     
+              if(action == data.curCatStatus.cat.yesAction[i])
+              {
+                if(data.curCatStatus.favorability < 5)
+                {
+                  int r = Random.Range(1, 3);
+                  if(r == 1) catAnim.SetTrigger("p1");
+                  if(r == 2) catAnim.SetTrigger("p2");
+                  if(r == 3) catAnim.SetTrigger("p3");
+                }
+
+                if(data.curCatStatus.favorability > 5 && data.curCatStatus.favorability < 7)
+                { 
+                  catAnim.SetTrigger("attract");
+                }
+
+                if(data.curCatStatus.favorability > 7 )
+                { 
+                  int r = Random.Range(1, 3);
+                  if(r == 1) catAnim.SetTrigger("approach1");
+                  if(r == 2) catAnim.SetTrigger("approach2");
+                  if(r == 3) catAnim.SetTrigger("approach3");
+                }
+
+              }
+        }
+
+        //not preferred action
+        for(int i = 0; i < data.curCatStatus.cat.noAction.Length; i += 1)
+        {     
+              if(action == data.curCatStatus.cat.noAction[i])
+              {
+                if(data.curCatStatus.favorability < 5)
+                {
+                  int r = Random.Range(1, 3);
+                  if(r == 1) catAnim.SetTrigger("np1");
+                  if(r == 2) catAnim.SetTrigger("np2");
+                  if(r == 3) catAnim.SetTrigger("np3");
+                }
+
+                if(data.curCatStatus.favorability > 5 && data.curCatStatus.favorability < 8)
+                {
+                  catAnim.SetTrigger("attract");
+                }
+
+                if(data.curCatStatus.favorability > 8)
+                {
+                  catAnim.SetTrigger("approach");
+                }
+
+              }              
+        }
+
+        //preferred toy
+        for(int i = 0; i < data.curCatStatus.cat.yesToy.Length; i += 1)
+        {     
+              if(action == data.curCatStatus.cat.yesToy[i])
+              {
+                int r = Random.Range(1, 3);
+                if(r == 1) catAnim.SetTrigger("p1");
+                if(r == 2) catAnim.SetTrigger("p2");
+                if(r == 3) catAnim.SetTrigger("p3");
+                
+              }
+              
+        }
+
+        //not preferred toy
+        for(int i = 0; i < data.curCatStatus.cat.noToy.Length; i += 1)
+        {     
+              if(action == data.curCatStatus.cat.noToy[i])
+              {
+                int r = Random.Range(1, 3);
+                if(r == 1) catAnim.SetTrigger("p1");
+                if(r == 2) catAnim.SetTrigger("p2");
+                if(r == 3) catAnim.SetTrigger("p3");
+                
+              }
+
+        }
+
+    }
 
     public class GameData
     {
