@@ -312,7 +312,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ac71e6f60a888144fb9b74a02482205e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  character: {fileID: 1838138744}
+  character: {fileID: 1245148799}
 --- !u!1 &1195224880
 GameObject:
   m_ObjectHideFlags: 0
@@ -487,6 +487,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   catAnim: {fileID: 0}
+  isIdle: 0
 --- !u!65 &1245148801
 BoxCollider:
   m_ObjectHideFlags: 0
