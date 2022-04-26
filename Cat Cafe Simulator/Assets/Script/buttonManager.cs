@@ -20,11 +20,7 @@ public class buttonManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-<<<<<<< Updated upstream
         p = GameObject.FindWithTag("player").GetComponent<Character>().data.curCatStatus.favorability;
-=======
-        //p = GameObject.FindWithTag(player).GetComponent<Character>(CatStatus).favorability;
->>>>>>> Stashed changes
 
         if(p < 4)
         {
