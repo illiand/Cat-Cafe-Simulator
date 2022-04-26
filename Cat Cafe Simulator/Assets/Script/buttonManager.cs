@@ -20,7 +20,9 @@ public class buttonManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        p = GameObject.FindWithTag("player").GetComponent<Character>().data.curCatStatus.favorability;
+        if(player == null)return;
+
+        p = player.GetComponent<Character>().data.curCatStatus.favorability;
 
         if(p < 4)
         {

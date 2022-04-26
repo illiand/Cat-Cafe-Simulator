@@ -22,7 +22,7 @@ public class catReact : MonoBehaviour
     float animTime;
     float curTime;
 
-    int r = 1;
+    public int r = 1;
     // Start is called before the first frame update
     void Start()
     {
@@ -37,7 +37,6 @@ public class catReact : MonoBehaviour
     void Update()
     {
         checkCat();
-
         curTime -= Time.deltaTime;
 
         if(r == 3)
@@ -73,7 +72,7 @@ public class catReact : MonoBehaviour
         }
     }
 
-    void disableAnimation()
+    public void disableAnimation()
     {
       catAnim.SetBool("1-2", false);
       catAnim.SetBool("2-3", false);

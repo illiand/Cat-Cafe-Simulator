@@ -40,11 +40,7 @@ public class Character : MonoBehaviour
     void Start()
     {
       initData();
-      initRound(GameObject.Find("Bombay"));
 
-      //useAction("Slowly Approach");
-
-      catAnim = GetComponent<Animator>();
       playerAction();
     }
 
@@ -83,6 +79,34 @@ public class Character : MonoBehaviour
         transform.Translate(-Time.deltaTime * speed, 0, 0);
       }
 
+      if (Input.GetKey(KeyCode.E))
+      {
+        GameObject[] catsInScene = GameObject.FindGameObjectsWithTag("Cat");
+        float dis = 999;
+        int index = -1;
+
+        for (int i = 0; i < catsInScene.Length; i += 1)
+        {
+          float curDis = Vector3.Distance(catsInScene[i].transform.position, transform.position);
+          if(curDis < dis)
+          {
+            dis = curDis;
+            index = i;
+          }
+        }
+
+        if(index != -1 && dis < 2)
+        {
+          initRound(catsInScene[index]);
+
+          catsInScene[index].transform.LookAt(transform.position);
+          catsInScene[index].GetComponent<catReact>().catAnim.Play("Base Layer.pa");
+          catsInScene[index].GetComponent<catReact>().disableAnimation();
+          catsInScene[index].GetComponent<catReact>().r = 1;
+          GameObject.FindGameObjectsWithTag("MainCamera")[0].GetComponent<CharacterCamera>().moveable = false;
+        }
+      }
+
       transform.localEulerAngles += new Vector3(0, Input.GetAxis("Mouse X"), 0);
     }
 
@@ -90,7 +114,7 @@ public class Character : MonoBehaviour
     {
       act11.onClick.AddListener(delegate{useAction("Slowly Approach");});
       act12.onClick.AddListener(delegate{useAction("Beckon Approach");});
-      act13.onClick.AddListener(delegate{useAction("CallApproach");});
+      act13.onClick.AddListener(delegate{useAction("Call Approach");});
 
       act21.onClick.AddListener(delegate{useAction("Lift up");});
       act22.onClick.AddListener(delegate{useAction("Holding its head and bottom with gentle hands");});
@@ -102,6 +126,7 @@ public class Character : MonoBehaviour
       act34.onClick.AddListener(delegate{useAction("Touch the chin - Gently touch");});
       act35.onClick.AddListener(delegate{useAction("Touch the chin - Quick Rub");});
       act36.onClick.AddListener(delegate{useAction("Touch the chin - Harder Rub");});
+
 
     }
 
@@ -320,6 +345,7 @@ public class Character : MonoBehaviour
           }
 
           cat.GetComponent<catReact>().isIdle = false;
+          catAnim = cat.GetComponent<Animator>();
 
           data.money -= cats[i].cost;
           data.actionPoint = 3;
@@ -338,6 +364,7 @@ public class Character : MonoBehaviour
 
     public void useAction(string name)
     {
+
       if(data.actionPoint == 0)
       {
         return;
@@ -345,7 +372,7 @@ public class Character : MonoBehaviour
 
       data.actionPoint -= 1;
 
-      //catReaction(name);
+      catReaction(name);
 
       for(int i = 0; i < data.curCatStatus.cat.yesAction.Length; i += 1)
       {
@@ -400,19 +427,24 @@ public class Character : MonoBehaviour
         return;
       }
 
-      //catReaction(name);
-
-      data.preUsedToy = name;
-
       for(int i = 0; i < data.curToys.Length; i += 1)
       {
         if(name == toys[i].name)
         {
+          if(data.curToys[i] == 0)
+          {
+            return;
+          }
+
           data.curToys[i] -= 1;
 
           break;
         }
       }
+
+      catReaction(name);
+
+      data.preUsedToy = name;
 
       for(int i = 0; i < data.curCatStatus.cat.yesToy.Length; i += 1)
       {
@@ -440,19 +472,22 @@ public class Character : MonoBehaviour
         //preferred Action
         for(int i = 0; i < data.curCatStatus.cat.yesAction.Length; i += 1)
         {
+            Debug.Log(name + " " + data.curCatStatus.cat.yesAction[i]);
+
+
               if(name == data.curCatStatus.cat.yesAction[i])
               {
                 if(data.curCatStatus.favorability < 3)
                 {
                   int r = Random.Range(1, 3);
-                  if(r == 1) catAnim.SetTrigger("p1");
-                  if(r == 2) catAnim.SetTrigger("p2");
-                  if(r == 3) catAnim.SetTrigger("p3");
+                  if(r == 1) catAnim.SetTrigger("p1y1");
+                  if(r == 2) catAnim.SetTrigger("p1y2");
+                  if(r == 3) catAnim.SetTrigger("p1y3");
                 }
 
                 if(data.curCatStatus.favorability == 4)
                 {
-                  catAnim.SetTrigger("attract");
+                  catAnim.SetTrigger("p1-p2");
                 }
 
                 if(data.curCatStatus.favorability > 4 && data.curCatStatus.favorability < 6)
@@ -473,23 +508,34 @@ public class Character : MonoBehaviour
         //not preferred action
         for(int i = 0; i < data.curCatStatus.cat.noAction.Length; i += 1)
         {
+          Debug.Log(name + " ! " + data.curCatStatus.cat.noAction[i]);
+
               if(name == data.curCatStatus.cat.noAction[i])
               {
                 if(data.curCatStatus.favorability < 3 && data.curCatStatus.favorability > 0)
                 {
+
+
                   //swp face
-                  gameObject.GetComponent<Renderer>().materials[1].mainTexture = Face2;
+                  GameObject.Find(data.curCatStatus.cat.name + " - neko:body").GetComponent<Renderer>().materials[1].mainTexture = GameObject.Find(data.curCatStatus.cat.name).GetComponent<catReact>().Face2;
+
+                  catAnim.SetTrigger("p1n1");
 
                   int r = Random.Range(1, 3);
-                  if(r == 1) catAnim.SetTrigger("np1");
-                  if(r == 2) catAnim.SetTrigger("np2");
-                  if(r == 3) catAnim.SetTrigger("np3");
+                  if(r == 1) catAnim.SetTrigger("p1y1");
+                  if(r == 2) catAnim.SetTrigger("p1y2");
+                  if(r == 3) catAnim.SetTrigger("p1y3");
+                }
+
+                if(data.curCatStatus.favorability == 3)
+                {
+                   catAnim.SetTrigger("p2-p1");
                 }
 
                 if(data.curCatStatus.favorability > 3 && data.curCatStatus.favorability < 6)
                 {
                   //swp face
-                  gameObject.GetComponent<Renderer>().materials[1].mainTexture = Face3;
+                  GameObject.Find(data.curCatStatus.cat.name + " - neko:body").GetComponent<Renderer>().materials[1].mainTexture = GameObject.Find(data.curCatStatus.cat.name).GetComponent<catReact>().Face3;
 
                   int r = Random.Range(1, 3);
                   if(r == 1) catAnim.SetTrigger("np4");
@@ -500,11 +546,11 @@ public class Character : MonoBehaviour
                 if(data.curCatStatus.favorability < 0)
                 {
                   //swp face
-                  gameObject.GetComponent<Renderer>().materials[1].mainTexture = Face4;
                   catAnim.SetTrigger("lost");
+                  GameObject.Find(data.curCatStatus.cat.name + " - neko:body").GetComponent<Renderer>().materials[1].mainTexture = GameObject.Find(data.curCatStatus.cat.name).GetComponent<catReact>().Face4;
                 }
               }else{
-                gameObject.GetComponent<Renderer>().materials[1].mainTexture = Face1;
+                GameObject.Find(data.curCatStatus.cat.name + " - neko:body").GetComponent<Renderer>().materials[1].mainTexture = GameObject.Find(data.curCatStatus.cat.name).GetComponent<catReact>().Face3;
               }
         }
 
@@ -516,14 +562,14 @@ public class Character : MonoBehaviour
                 if(data.curCatStatus.favorability < 3)
                 {
                   int r = Random.Range(1, 3);
-                  if(r == 1) catAnim.SetTrigger("p1");
-                  if(r == 2) catAnim.SetTrigger("p2");
-                  if(r == 3) catAnim.SetTrigger("p3");
+                  if(r == 1) catAnim.SetTrigger("p1y1");
+                  if(r == 2) catAnim.SetTrigger("p1y2");
+                  if(r == 3) catAnim.SetTrigger("p1y3");
                 }
 
                 if(data.curCatStatus.favorability == 4)
                 {
-                  catAnim.SetTrigger("attract");
+                  catAnim.SetTrigger("p1-p2");
                 }
 
                 if(data.curCatStatus.favorability > 4 && data.curCatStatus.favorability < 6)
@@ -549,18 +595,25 @@ public class Character : MonoBehaviour
                 if(data.curCatStatus.favorability < 3 && data.curCatStatus.favorability > 0)
                 {
                   //swp face
-                  gameObject.GetComponent<Renderer>().materials[1].mainTexture = Face2;
+                  GameObject.Find(data.curCatStatus.cat.name + " - neko:body").GetComponent<Renderer>().materials[1].mainTexture = GameObject.Find(data.curCatStatus.cat.name).GetComponent<catReact>().Face2;
+
+                  catAnim.SetTrigger("p1n1");
 
                   int r = Random.Range(1, 3);
-                  if(r == 1) catAnim.SetTrigger("np1");
-                  if(r == 2) catAnim.SetTrigger("np2");
-                  if(r == 3) catAnim.SetTrigger("np3");
+                  if(r == 1) catAnim.SetTrigger("p1y1");
+                  if(r == 2) catAnim.SetTrigger("p1y2");
+                  if(r == 3) catAnim.SetTrigger("p1y3");
+                }
+
+                if(data.curCatStatus.favorability == 3)
+                {
+                   catAnim.SetBool("p2-p1", true);
                 }
 
                 if(data.curCatStatus.favorability > 3 && data.curCatStatus.favorability < 6)
                 {
                   //swp face
-                  gameObject.GetComponent<Renderer>().materials[1].mainTexture = Face3;
+                  GameObject.Find(data.curCatStatus.cat.name + " - neko:body").GetComponent<Renderer>().materials[1].mainTexture = GameObject.Find(data.curCatStatus.cat.name).GetComponent<catReact>().Face3;
 
                   int r = Random.Range(1, 3);
                   if(r == 1) catAnim.SetTrigger("np4");
@@ -571,11 +624,11 @@ public class Character : MonoBehaviour
                 if(data.curCatStatus.favorability < 0)
                 {
                   //swp face
-                  gameObject.GetComponent<Renderer>().materials[1].mainTexture = Face4;
+                  GameObject.Find(data.curCatStatus.cat.name + " - neko:body").GetComponent<Renderer>().materials[1].mainTexture = GameObject.Find(data.curCatStatus.cat.name).GetComponent<catReact>().Face4;
                   catAnim.SetTrigger("lost");
                 }
               }else{
-                gameObject.GetComponent<Renderer>().materials[1].mainTexture = Face1;
+                GameObject.Find(data.curCatStatus.cat.name + " - neko:body").GetComponent<Renderer>().materials[1].mainTexture = GameObject.Find(data.curCatStatus.cat.name).GetComponent<catReact>().Face1;
               }
         }
 
