@@ -486,11 +486,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f641f8dc43e6c544be6f711fa71fd7b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  happyFace_1: {fileID: 0}
-  sadFace_1: {fileID: 0}
-  happyFace_2: {fileID: 0}
-  sadFace_2: {fileID: 0}
-  points: 0
+  catAnim: {fileID: 0}
 --- !u!65 &1245148801
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -770,6 +766,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   catAnim: {fileID: 0}
+  Face1: {fileID: 0}
+  Face2: {fileID: 0}
+  Face3: {fileID: 0}
+  Face4: {fileID: 0}
+  Face5: {fileID: 0}
 --- !u!65 &1838138746
 BoxCollider:
   m_ObjectHideFlags: 0
