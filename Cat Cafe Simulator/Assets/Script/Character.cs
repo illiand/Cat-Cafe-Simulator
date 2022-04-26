@@ -10,6 +10,12 @@ public class Character : MonoBehaviour
     public Action[] actions;
     public Animator catAnim;
 
+    public Texture Face1;
+    public Texture Face2;
+    public Texture Face3;
+    public Texture Face4;
+    public Texture Face5;
+
     // Start is called before the first frame update
     void Start()
     { 
@@ -425,7 +431,10 @@ public class Character : MonoBehaviour
               if(name == data.curCatStatus.cat.noAction[i])
               {
                 if(data.curCatStatus.favorability < 3 && data.curCatStatus.favorability > 0)
-                {
+                { 
+                  //swp face 
+                  gameObject.GetComponent<Renderer>().materials[1].mainTexture = Face2;
+
                   int r = Random.Range(1, 3);
                   if(r == 1) catAnim.SetTrigger("np1");
                   if(r == 2) catAnim.SetTrigger("np2");
@@ -434,6 +443,9 @@ public class Character : MonoBehaviour
 
                 if(data.curCatStatus.favorability > 3 && data.curCatStatus.favorability < 6)
                 { 
+                  //swp face 
+                  gameObject.GetComponent<Renderer>().materials[1].mainTexture = Face3;
+
                   int r = Random.Range(1, 3);
                   if(r == 1) catAnim.SetTrigger("np4");
                   if(r == 2) catAnim.SetTrigger("np5");
@@ -441,10 +453,14 @@ public class Character : MonoBehaviour
                 }
 
                 if(data.curCatStatus.favorability < 0)
-                {
+                { 
+                  //swp face 
+                  gameObject.GetComponent<Renderer>().materials[1].mainTexture = Face4;
                   catAnim.SetTrigger("lost");
                 }
-              }              
+              }else{
+                gameObject.GetComponent<Renderer>().materials[1].mainTexture = Face1;        
+              }  
         }
 
         //preferred toy
@@ -453,7 +469,7 @@ public class Character : MonoBehaviour
               if(name == data.curCatStatus.cat.yesToy[i])
               {
                 if(data.curCatStatus.favorability < 3)
-                {
+                { 
                   int r = Random.Range(1, 3);
                   if(r == 1) catAnim.SetTrigger("p1");
                   if(r == 2) catAnim.SetTrigger("p2");
@@ -486,7 +502,10 @@ public class Character : MonoBehaviour
               if(name == data.curCatStatus.cat.noToy[i])
               {
                 if(data.curCatStatus.favorability < 3 && data.curCatStatus.favorability > 0)
-                {
+                { 
+                  //swp face 
+                  gameObject.GetComponent<Renderer>().materials[1].mainTexture = Face2;
+
                   int r = Random.Range(1, 3);
                   if(r == 1) catAnim.SetTrigger("np1");
                   if(r == 2) catAnim.SetTrigger("np2");
@@ -495,6 +514,9 @@ public class Character : MonoBehaviour
 
                 if(data.curCatStatus.favorability > 3 && data.curCatStatus.favorability < 6)
                 { 
+                  //swp face
+                  gameObject.GetComponent<Renderer>().materials[1].mainTexture = Face3;
+
                   int r = Random.Range(1, 3);
                   if(r == 1) catAnim.SetTrigger("np4");
                   if(r == 2) catAnim.SetTrigger("np5");
@@ -502,9 +524,13 @@ public class Character : MonoBehaviour
                 }
 
                 if(data.curCatStatus.favorability < 0)
-                {
+                { 
+                  //swp face
+                  gameObject.GetComponent<Renderer>().materials[1].mainTexture = Face4;
                   catAnim.SetTrigger("lost");
                 }
+              }else{
+                gameObject.GetComponent<Renderer>().materials[1].mainTexture = Face1;        
               }
         }
 
