@@ -391,7 +391,7 @@ public class Character : MonoBehaviour
         {     
               if(action == data.curCatStatus.cat.yesAction[i])
               {
-                if(data.curCatStatus.favorability < 5)
+                if(data.curCatStatus.favorability < 3)
                 {
                   int r = Random.Range(1, 3);
                   if(r == 1) catAnim.SetTrigger("p1");
@@ -399,12 +399,12 @@ public class Character : MonoBehaviour
                   if(r == 3) catAnim.SetTrigger("p3");
                 }
 
-                if(data.curCatStatus.favorability > 5 && data.curCatStatus.favorability < 7)
+                if(data.curCatStatus.favorability == 4)
                 { 
                   catAnim.SetTrigger("attract");
                 }
 
-                if(data.curCatStatus.favorability > 7 )
+                if(data.curCatStatus.favorability > 4 && data.curCatStatus.favorability < 6)
                 { 
                   int r = Random.Range(1, 3);
                   if(r == 1) catAnim.SetTrigger("approach1");
@@ -412,6 +412,10 @@ public class Character : MonoBehaviour
                   if(r == 3) catAnim.SetTrigger("approach3");
                 }
 
+                if(data.curCatStatus.favorability > 6)
+                {
+                  catAnim.SetTrigger("happy");
+                }
               }
         }
 
@@ -420,7 +424,7 @@ public class Character : MonoBehaviour
         {     
               if(action == data.curCatStatus.cat.noAction[i])
               {
-                if(data.curCatStatus.favorability < 5)
+                if(data.curCatStatus.favorability < 3 && data.curCatStatus.favorability > 0)
                 {
                   int r = Random.Range(1, 3);
                   if(r == 1) catAnim.SetTrigger("np1");
@@ -428,16 +432,18 @@ public class Character : MonoBehaviour
                   if(r == 3) catAnim.SetTrigger("np3");
                 }
 
-                if(data.curCatStatus.favorability > 5 && data.curCatStatus.favorability < 8)
-                {
-                  catAnim.SetTrigger("attract");
+                if(data.curCatStatus.favorability > 3 && data.curCatStatus.favorability < 6)
+                { 
+                  int r = Random.Range(1, 3);
+                  if(r == 1) catAnim.SetTrigger("np4");
+                  if(r == 2) catAnim.SetTrigger("np5");
+                  if(r == 3) catAnim.SetTrigger("np6");
                 }
 
-                if(data.curCatStatus.favorability > 8)
+                if(data.curCatStatus.favorability < 0)
                 {
-                  catAnim.SetTrigger("approach");
+                  catAnim.SetTrigger("lost");
                 }
-
               }              
         }
 
@@ -446,27 +452,60 @@ public class Character : MonoBehaviour
         {     
               if(action == data.curCatStatus.cat.yesToy[i])
               {
-                int r = Random.Range(1, 3);
-                if(r == 1) catAnim.SetTrigger("p1");
-                if(r == 2) catAnim.SetTrigger("p2");
-                if(r == 3) catAnim.SetTrigger("p3");
-                
-              }
-              
+                if(data.curCatStatus.favorability < 3)
+                {
+                  int r = Random.Range(1, 3);
+                  if(r == 1) catAnim.SetTrigger("p1");
+                  if(r == 2) catAnim.SetTrigger("p2");
+                  if(r == 3) catAnim.SetTrigger("p3");
+                }
+
+                if(data.curCatStatus.favorability == 4)
+                { 
+                  catAnim.SetTrigger("attract");
+                }
+
+                if(data.curCatStatus.favorability > 4 && data.curCatStatus.favorability < 6)
+                { 
+                  int r = Random.Range(1, 3);
+                  if(r == 1) catAnim.SetTrigger("approach1");
+                  if(r == 2) catAnim.SetTrigger("approach2");
+                  if(r == 3) catAnim.SetTrigger("approach3");
+                }
+
+                if(data.curCatStatus.favorability > 6)
+                {
+                  catAnim.SetTrigger("happy");
+                }
+              } 
         }
 
         //not preferred toy
         for(int i = 0; i < data.curCatStatus.cat.noToy.Length; i += 1)
         {     
-              if(action == data.curCatStatus.cat.noToy[i])
+              if(action == data.curCatStatus.cat.noAction[i])
               {
-                int r = Random.Range(1, 3);
-                if(r == 1) catAnim.SetTrigger("p1");
-                if(r == 2) catAnim.SetTrigger("p2");
-                if(r == 3) catAnim.SetTrigger("p3");
-                
-              }
+                if(data.curCatStatus.favorability < 3 && data.curCatStatus.favorability > 0)
+                {
+                  int r = Random.Range(1, 3);
+                  if(r == 1) catAnim.SetTrigger("np1");
+                  if(r == 2) catAnim.SetTrigger("np2");
+                  if(r == 3) catAnim.SetTrigger("np3");
+                }
 
+                if(data.curCatStatus.favorability > 3 && data.curCatStatus.favorability < 6)
+                { 
+                  int r = Random.Range(1, 3);
+                  if(r == 1) catAnim.SetTrigger("np4");
+                  if(r == 2) catAnim.SetTrigger("np5");
+                  if(r == 3) catAnim.SetTrigger("np6");
+                }
+
+                if(data.curCatStatus.favorability < 0)
+                {
+                  catAnim.SetTrigger("lost");
+                }
+              }
         }
 
     }
