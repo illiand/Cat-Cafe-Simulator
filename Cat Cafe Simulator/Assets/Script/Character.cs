@@ -18,8 +18,11 @@ public class Character : MonoBehaviour
 
     // Start is called before the first frame update
     void Start()
-    { 
+    {
       initData();
+      initRound(GameObject.Find("Bombay"));
+
+      //useAction("Slowly Approach");
 
       catAnim = GetComponent<Animator>();
     }
@@ -391,10 +394,10 @@ public class Character : MonoBehaviour
     }
 
     void catReaction(string name)
-    {   
+    {
         //preferred Action
         for(int i = 0; i < data.curCatStatus.cat.yesAction.Length; i += 1)
-        {     
+        {
               if(name == data.curCatStatus.cat.yesAction[i])
               {
                 if(data.curCatStatus.favorability < 3)
@@ -406,12 +409,12 @@ public class Character : MonoBehaviour
                 }
 
                 if(data.curCatStatus.favorability == 4)
-                { 
+                {
                   catAnim.SetTrigger("attract");
                 }
 
                 if(data.curCatStatus.favorability > 4 && data.curCatStatus.favorability < 6)
-                { 
+                {
                   int r = Random.Range(1, 3);
                   if(r == 1) catAnim.SetTrigger("approach1");
                   if(r == 2) catAnim.SetTrigger("approach2");
@@ -427,12 +430,12 @@ public class Character : MonoBehaviour
 
         //not preferred action
         for(int i = 0; i < data.curCatStatus.cat.noAction.Length; i += 1)
-        {     
+        {
               if(name == data.curCatStatus.cat.noAction[i])
               {
                 if(data.curCatStatus.favorability < 3 && data.curCatStatus.favorability > 0)
-                { 
-                  //swp face 
+                {
+                  //swp face
                   gameObject.GetComponent<Renderer>().materials[1].mainTexture = Face2;
 
                   int r = Random.Range(1, 3);
@@ -442,8 +445,8 @@ public class Character : MonoBehaviour
                 }
 
                 if(data.curCatStatus.favorability > 3 && data.curCatStatus.favorability < 6)
-                { 
-                  //swp face 
+                {
+                  //swp face
                   gameObject.GetComponent<Renderer>().materials[1].mainTexture = Face3;
 
                   int r = Random.Range(1, 3);
@@ -453,23 +456,23 @@ public class Character : MonoBehaviour
                 }
 
                 if(data.curCatStatus.favorability < 0)
-                { 
-                  //swp face 
+                {
+                  //swp face
                   gameObject.GetComponent<Renderer>().materials[1].mainTexture = Face4;
                   catAnim.SetTrigger("lost");
                 }
               }else{
-                gameObject.GetComponent<Renderer>().materials[1].mainTexture = Face1;        
-              }  
+                gameObject.GetComponent<Renderer>().materials[1].mainTexture = Face1;
+              }
         }
 
         //preferred toy
         for(int i = 0; i < data.curCatStatus.cat.yesToy.Length; i += 1)
-        {     
+        {
               if(name == data.curCatStatus.cat.yesToy[i])
               {
                 if(data.curCatStatus.favorability < 3)
-                { 
+                {
                   int r = Random.Range(1, 3);
                   if(r == 1) catAnim.SetTrigger("p1");
                   if(r == 2) catAnim.SetTrigger("p2");
@@ -477,12 +480,12 @@ public class Character : MonoBehaviour
                 }
 
                 if(data.curCatStatus.favorability == 4)
-                { 
+                {
                   catAnim.SetTrigger("attract");
                 }
 
                 if(data.curCatStatus.favorability > 4 && data.curCatStatus.favorability < 6)
-                { 
+                {
                   int r = Random.Range(1, 3);
                   if(r == 1) catAnim.SetTrigger("approach1");
                   if(r == 2) catAnim.SetTrigger("approach2");
@@ -493,17 +496,17 @@ public class Character : MonoBehaviour
                 {
                   catAnim.SetTrigger("happy");
                 }
-              } 
+              }
         }
 
         //not preferred toy
         for(int i = 0; i < data.curCatStatus.cat.noToy.Length; i += 1)
-        {     
+        {
               if(name == data.curCatStatus.cat.noToy[i])
               {
                 if(data.curCatStatus.favorability < 3 && data.curCatStatus.favorability > 0)
-                { 
-                  //swp face 
+                {
+                  //swp face
                   gameObject.GetComponent<Renderer>().materials[1].mainTexture = Face2;
 
                   int r = Random.Range(1, 3);
@@ -513,7 +516,7 @@ public class Character : MonoBehaviour
                 }
 
                 if(data.curCatStatus.favorability > 3 && data.curCatStatus.favorability < 6)
-                { 
+                {
                   //swp face
                   gameObject.GetComponent<Renderer>().materials[1].mainTexture = Face3;
 
@@ -524,13 +527,13 @@ public class Character : MonoBehaviour
                 }
 
                 if(data.curCatStatus.favorability < 0)
-                { 
+                {
                   //swp face
                   gameObject.GetComponent<Renderer>().materials[1].mainTexture = Face4;
                   catAnim.SetTrigger("lost");
                 }
               }else{
-                gameObject.GetComponent<Renderer>().materials[1].mainTexture = Face1;        
+                gameObject.GetComponent<Renderer>().materials[1].mainTexture = Face1;
               }
         }
 
