@@ -7,6 +7,13 @@ using UnityEngine.Events;
 public class catReact : MonoBehaviour
 {
     public Animator catAnim;
+
+    public Texture Face1;
+    public Texture Face2;
+    public Texture Face3;
+    public Texture Face4;
+    public Texture Face5;
+
     Vector2 v;
     Vector2 previousV;
     // cat statu
