@@ -417,7 +417,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 100000, guid: cf9fdbf591b4b4ad5a8974e3c3952f1e, type: 3}
       propertyPath: m_Name
-      value: Bombay
+      value: cat_Pro
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: cf9fdbf591b4b4ad5a8974e3c3952f1e, type: 3}
       propertyPath: m_RootOrder
@@ -486,11 +486,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f641f8dc43e6c544be6f711fa71fd7b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  happyFace_1: {fileID: 2800000, guid: 2040b3f24b1db475a9bbff96293ac05d, type: 3}
-  sadFace_1: {fileID: 2800000, guid: 3993dad6ea1204ea083302a3606a5377, type: 3}
-  happyFace_2: {fileID: 2800000, guid: 1b4bb855a133140d9a6544ade5813960, type: 3}
-  sadFace_2: {fileID: 2800000, guid: 3993dad6ea1204ea083302a3606a5377, type: 3}
-  points: 0
+  catAnim: {fileID: 0}
 --- !u!65 &1245148801
 BoxCollider:
   m_ObjectHideFlags: 0

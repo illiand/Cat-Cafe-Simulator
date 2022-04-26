@@ -25,11 +25,12 @@ public class Character : MonoBehaviour
       //useAction("Slowly Approach");
 
       catAnim = GetComponent<Animator>();
+
     }
 
     // Update is called once per frame
     void Update()
-    {
+    { 
       handleUserInput();
 
       if(data.money <= 0 && data.actionPoint == 0)
