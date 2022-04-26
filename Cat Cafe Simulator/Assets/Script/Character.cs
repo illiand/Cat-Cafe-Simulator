@@ -384,12 +384,12 @@ public class Character : MonoBehaviour
       }
     }
 
-    void catReaction(string action)
+    void catReaction(string name)
     {   
         //preferred Action
         for(int i = 0; i < data.curCatStatus.cat.yesAction.Length; i += 1)
         {     
-              if(action == data.curCatStatus.cat.yesAction[i])
+              if(name == data.curCatStatus.cat.yesAction[i])
               {
                 if(data.curCatStatus.favorability < 3)
                 {
@@ -422,7 +422,7 @@ public class Character : MonoBehaviour
         //not preferred action
         for(int i = 0; i < data.curCatStatus.cat.noAction.Length; i += 1)
         {     
-              if(action == data.curCatStatus.cat.noAction[i])
+              if(name == data.curCatStatus.cat.noAction[i])
               {
                 if(data.curCatStatus.favorability < 3 && data.curCatStatus.favorability > 0)
                 {
@@ -450,7 +450,7 @@ public class Character : MonoBehaviour
         //preferred toy
         for(int i = 0; i < data.curCatStatus.cat.yesToy.Length; i += 1)
         {     
-              if(action == data.curCatStatus.cat.yesToy[i])
+              if(name == data.curCatStatus.cat.yesToy[i])
               {
                 if(data.curCatStatus.favorability < 3)
                 {
@@ -483,7 +483,7 @@ public class Character : MonoBehaviour
         //not preferred toy
         for(int i = 0; i < data.curCatStatus.cat.noToy.Length; i += 1)
         {     
-              if(action == data.curCatStatus.cat.noAction[i])
+              if(name == data.curCatStatus.cat.noToy[i])
               {
                 if(data.curCatStatus.favorability < 3 && data.curCatStatus.favorability > 0)
                 {
