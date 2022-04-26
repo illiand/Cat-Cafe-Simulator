@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class buttonManager : MonoBehaviour
-{   
+{
     public GameObject player;
     public GameObject action1;
     public GameObject action2;
@@ -14,13 +14,13 @@ public class buttonManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-       
+
     }
 
     // Update is called once per frame
     void Update()
     {
-        p = GameObject.FindWithTag(player).GetComponent<Character>(CatStatus).favorability;
+        p = GameObject.FindWithTag("player").GetComponent<Character>().data.curCatStatus.favorability;
 
         if(p < 4)
         {
@@ -29,7 +29,7 @@ public class buttonManager : MonoBehaviour
             action3.SetActive(false);
         }
 
-        if(p = 4)
+        if(p == 4)
         {
             action1.SetActive(false);
             action2.SetActive(true);
