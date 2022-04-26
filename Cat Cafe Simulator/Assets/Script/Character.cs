@@ -45,14 +45,14 @@ public class Character : MonoBehaviour
       //useAction("Slowly Approach");
 
       catAnim = GetComponent<Animator>();
-
+      playerAction();
     }
 
     // Update is called once per frame
     void Update()
     {
       handleUserInput();
-      playerAction();
+
       if(data.money <= 0 && data.actionPoint == 0)
       {
         Debug.Log("GG");
@@ -85,23 +85,23 @@ public class Character : MonoBehaviour
 
       transform.localEulerAngles += new Vector3(0, Input.GetAxis("Mouse X"), 0);
     }
-    
+
     void playerAction()
     {
-      if(act11.onClick) useAction("Slowly Approach");
-      if(act12.onClick) useAction("Beckon Approach");
-      if(act13.onClick) useAction("CallApproach");
+      act11.onClick.AddListener(delegate{useAction("Slowly Approach");});
+      act12.onClick.AddListener(delegate{useAction("Beckon Approach");});
+      act13.onClick.AddListener(delegate{useAction("CallApproach");});
 
-      if(act21.onClick) useAction("Lift up");
-      if(act22.onClick) useAction("Holding its head and bottom with gentle hands");
-      if(act23.onClick) useAction("Hold it on your shoulder");
+      act21.onClick.AddListener(delegate{useAction("Lift up");});
+      act22.onClick.AddListener(delegate{useAction("Holding its head and bottom with gentle hands");});
+      act23.onClick.AddListener(delegate{useAction("Hold it on your shoulder");});
 
-      if(act31.onClick) useAction("Touch the back ear - Gently touch");
-      if(act32.onClick) useAction("Touch the back ear - Quick Rub");
-      if(act33.onClick) useAction("Touch the back ear - Harder Rub");
-      if(act34.onClick) useAction("Touch the chin - Gently touch");
-      if(act35.onClick) useAction("Touch the chin - Quick Rub");
-      if(act36.onClick) useAction("Touch the chin - Harder Rub");
+      act31.onClick.AddListener(delegate{useAction("Touch the back ear - Gently touch");});
+      act32.onClick.AddListener(delegate{useAction("Touch the back ear - Quick Rub");});
+      act33.onClick.AddListener(delegate{useAction("Touch the back ear - Harder Rub");});
+      act34.onClick.AddListener(delegate{useAction("Touch the chin - Gently touch");});
+      act35.onClick.AddListener(delegate{useAction("Touch the chin - Quick Rub");});
+      act36.onClick.AddListener(delegate{useAction("Touch the chin - Harder Rub");});
 
     }
 
