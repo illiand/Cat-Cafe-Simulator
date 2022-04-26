@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor.Animations;
+using UnityEngine.UI;
 
 public class Character : MonoBehaviour
 {
@@ -17,13 +18,31 @@ public class Character : MonoBehaviour
     public Texture Face4;
     public Texture Face5;
 
+    private string action;
+
+    public Button act11;
+    public Button act12;
+    public Button act13;
+
+    public Button act21;
+    public Button act22;
+    public Button act23;
+
+    public Button act31;
+    public Button act32;
+    public Button act33;
+
+    public Button act34;
+    public Button act35;
+    public Button act36;
+
     // Start is called before the first frame update
     void Start()
     {
       initData();
       initRound(GameObject.Find("Bombay"));
 
-      useAction("Slowly Approach");
+      //useAction("Slowly Approach");
 
       catAnim = GetComponent<Animator>();
 
@@ -33,7 +52,7 @@ public class Character : MonoBehaviour
     void Update()
     {
       handleUserInput();
-
+      playerAction();
       if(data.money <= 0 && data.actionPoint == 0)
       {
         Debug.Log("GG");
@@ -65,6 +84,25 @@ public class Character : MonoBehaviour
       }
 
       transform.localEulerAngles += new Vector3(0, Input.GetAxis("Mouse X"), 0);
+    }
+    
+    void playerAction()
+    {
+      if(act11.onClick) useAction("Slowly Approach");
+      if(act12.onClick) useAction("Beckon Approach");
+      if(act13.onClick) useAction("CallApproach");
+
+      if(act21.onClick) useAction("Lift up");
+      if(act22.onClick) useAction("Holding its head and bottom with gentle hands");
+      if(act23.onClick) useAction("Hold it on your shoulder");
+
+      if(act31.onClick) useAction("Touch the back ear - Gently touch");
+      if(act32.onClick) useAction("Touch the back ear - Quick Rub");
+      if(act33.onClick) useAction("Touch the back ear - Harder Rub");
+      if(act34.onClick) useAction("Touch the chin - Gently touch");
+      if(act35.onClick) useAction("Touch the chin - Quick Rub");
+      if(act36.onClick) useAction("Touch the chin - Harder Rub");
+
     }
 
     public void initData()
