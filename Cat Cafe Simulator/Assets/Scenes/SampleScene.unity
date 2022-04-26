@@ -417,7 +417,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 100000, guid: cf9fdbf591b4b4ad5a8974e3c3952f1e, type: 3}
       propertyPath: m_Name
-      value: cat_Pro
+      value: Bombay
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: cf9fdbf591b4b4ad5a8974e3c3952f1e, type: 3}
       propertyPath: m_RootOrder
