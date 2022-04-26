@@ -22,7 +22,7 @@ public class Character : MonoBehaviour
       initData();
       initRound(GameObject.Find("Bombay"));
 
-      //useAction("Slowly Approach");
+      useAction("Slowly Approach");
 
       catAnim = GetComponent<Animator>();
 
@@ -30,7 +30,7 @@ public class Character : MonoBehaviour
 
     // Update is called once per frame
     void Update()
-    { 
+    {
       handleUserInput();
 
       if(data.money <= 0 && data.actionPoint == 0)
@@ -279,6 +279,8 @@ public class Character : MonoBehaviour
           {
             return;
           }
+
+          cat.GetComponent<catReact>().isIdle = false;
 
           data.money -= cats[i].cost;
           data.actionPoint = 3;
