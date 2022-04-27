@@ -366,10 +366,22 @@ public class Character : MonoBehaviour
 
     public void useAction(string name)
     {
-
       if(data.actionPoint == 0)
       {
+        mainUI.GetComponent<UIController>().showHint("No enough action point to interact with cat.", new Color(0.8f, 0.0f, 0.0f), 1.5f);
+
         return;
+      }
+
+      //cat's resistance
+      for(int j = 0; j < data.curCatStatus.resistAction.Count; j += 1)
+      {
+        if((string)data.curCatStatus.resistAction[j] == name)
+        {
+          mainUI.GetComponent<UIController>().showHint("Action can not be used successively.", new Color(0.8f, 0.0f, 0.0f), 1.5f);
+
+          return;
+        }
       }
 
       data.actionPoint -= 1;
@@ -380,15 +392,6 @@ public class Character : MonoBehaviour
       {
         if(name == data.curCatStatus.cat.yesAction[i])
         {
-          //cat's resistance
-          for(int j = 0; j < data.curCatStatus.resistAction.Count; i += 1)
-          {
-            if((string)data.curCatStatus.resistAction[j] == name)
-            {
-              return;
-            }
-          }
-
           data.curCatStatus.favorability += 1;
           data.curCatStatus.resistAction.Add(name);
 
@@ -426,6 +429,8 @@ public class Character : MonoBehaviour
     {
       if(name == data.preUsedToy)
       {
+        mainUI.GetComponent<UIController>().showHint("The toy can not be used successively", new Color(0.8f, 0.0f, 0.0f), 1.5f);
+
         return;
       }
 
@@ -435,6 +440,8 @@ public class Character : MonoBehaviour
         {
           if(data.curToys[i] == 0)
           {
+            mainUI.GetComponent<UIController>().showHint("No avilable toy.", new Color(0.8f, 0.0f, 0.0f), 1.5f);
+
             return;
           }
 

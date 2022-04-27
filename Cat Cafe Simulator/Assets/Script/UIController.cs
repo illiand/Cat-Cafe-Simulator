@@ -22,6 +22,13 @@ public class UIController : MonoBehaviour
     public Canvas battleLayout;
     public bool inBattle;
     public Text CatAttriText;
+
+    public Image hintPic;
+    public Text hintText;
+    private float hintDuration;
+    private float hintCurTime;
+    private Color hintTargetColor;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -45,8 +52,12 @@ public class UIController : MonoBehaviour
     {
       if(character.GetComponent<Character>().data.money - character.GetComponent<Character>().toys[index].cost < 0)
       {
+        showHint("No more money lift to buy the toy.", new Color(0.8f, 0.0f, 0.0f), 1.5f);
+
         return;
       }
+
+      showHint("Successfully bought " + character.GetComponent<Character>().toys[index].name + ".", new Color(0.0f, 0.8f, 0.0f), 1.5f);
 
       character.GetComponent<Character>().data.curToys[index] += 3;
       character.GetComponent<Character>().data.money -= character.GetComponent<Character>().toys[index].cost;
@@ -78,6 +89,11 @@ public class UIController : MonoBehaviour
 
       battleLayout.gameObject.SetActive(inBattle);
 
+      if(hintCurTime < hintDuration)
+      {
+        processHint();
+      }
+
       if(!inBattle) return;
 
       for(int i = 0; i < 3; i += 1)
@@ -107,5 +123,31 @@ public class UIController : MonoBehaviour
       }
 
       CatAttriText.text = character.GetComponent<Character>().data.curCatStatus.cat.name + " ~ " + character.GetComponent<Character>().data.curCatStatus.cat.characteristic + " ~";
+    }
+
+    public void showHint(string content, Color rgb, float duration)
+    {
+      hintDuration = duration;
+      hintCurTime = 0;
+      hintTargetColor = rgb;
+
+      hintText.text = content;
+    }
+
+    private void processHint()
+    {
+      if(hintCurTime < hintDuration * 0.2f)
+      {
+        hintPic.color = new Color(0.0f, 0.0f, 0.0f, Mathf.Lerp(0.0f, 0.5f, hintCurTime / (hintDuration * 0.2f)));
+        hintText.color = new Color(hintTargetColor.r, hintTargetColor.g, hintTargetColor.b, Mathf.Lerp(0.0f, 1.0f, hintCurTime / (hintDuration * 0.2f)));
+      }
+
+      if(hintDuration * 0.6f < hintCurTime)
+      {
+        hintPic.color = new Color(0.0f, 0.0f, 0.0f, Mathf.Lerp(0.5f, 0.0f, (hintCurTime - hintDuration * 0.6f) / (hintDuration * 0.4f)));
+        hintText.color = new Color(hintTargetColor.r, hintTargetColor.g, hintTargetColor.b, Mathf.Lerp(1.0f, 0.0f, (hintCurTime - hintDuration * 0.6f) / (hintDuration * 0.4f)));
+      }
+
+      hintCurTime += Time.deltaTime;
     }
 }
