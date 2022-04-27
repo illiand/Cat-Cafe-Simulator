@@ -32,6 +32,7 @@ public class Character : MonoBehaviour
 
     public Canvas mainUI;
 
+    int addPoint;
     // Start is called before the first frame update
     void Start()
     {
@@ -173,7 +174,7 @@ public class Character : MonoBehaviour
       cat3.yesAction = new string[]{"Call Approach", "Hold it on your shoulder", "Touch the back ear - Gently touch", "Touch the chin - Gently touch"};
       cat3.noAction = new string[]{"Slowly Approach", "Beckon Approach", "Lift up", "Touch the back ear - Quick Rub", "Touch the chin - Quick Rub"};
       cat3.characteristic = "Cautious";
-      cat3.initFavorability = -2;
+      cat3.initFavorability = -1;
       cats[2] = cat3;
 
       Cat cat4 = new Cat();
@@ -212,7 +213,7 @@ public class Character : MonoBehaviour
       Cat cat7 = new Cat();
       cat7.name = "Turnish Angora";
       cat1.cost = 20;
-      cat7.yesToy = new string[]{"Teaser", "Catnip", "Laser pointer", "Bell", "Scratcher"};
+      cat7.yesToy = new string[]{"Teaser", "Catnip", "Laser Pointer", "Bell", "Scratcher"};
       cat7.noToy = new string[]{"Wagging Fish", "Snack"};
       cat7.yesAction = new string[]{"Hold it on your shoulder", "Touch the back ear - Harder Rub", "Touch the chin - Harder Rub"};
       cat7.noAction = new string[]{"Touch the back ear - Gently touch", "Touch the back ear - Quick Rub", "Touch the back ear - Harder Rub"};
@@ -223,7 +224,7 @@ public class Character : MonoBehaviour
       Cat cat8 = new Cat();
       cat8.name = "Russian Blue";
       cat1.cost = 20;
-      cat8.yesToy = new string[]{"Scratcher", "Laser pointer", "Catnip"};
+      cat8.yesToy = new string[]{"Scratcher", "Laser Pointer", "Catnip"};
       cat8.noToy = new string[]{"Teaser", "Snack", "Belly", "Wagging fish"};
       cat8.yesAction = new string[]{"Touch the chin - Gently touch", "Touch the chin - Quick Rub", "Touch the chin - Harder Rub", "Touch the back ear - Gently touch"};
       cat8.noAction = new string[]{"Lift up", "Holding its head and bottom with gentle hands", "Hold it on your shoulder", "Touch the back ear - Harder Rub", "Touch the chin - Harder Rub"};
@@ -391,7 +392,8 @@ public class Character : MonoBehaviour
 
       data.actionPoint -= 1;
 
-      catReaction(name);
+      //catReaction(name, addPoint);
+      //catReaction(name);
 
       for(int i = 0; i < data.curCatStatus.cat.yesAction.Length; i += 1)
       {
@@ -400,13 +402,17 @@ public class Character : MonoBehaviour
           data.curCatStatus.favorability += 1;
           data.curCatStatus.resistAction.Add(name);
 
+          addPoint = data.curCatStatus.favorability;
+
           //add successive bonus
           if(data.preResult == 1)
           {
-            data.curCatStatus.favorability = Mathf.Min(data.curCatStatus.favorability + 1, 3);
+            data.curCatStatus.favorability = Mathf.Min(data.curCatStatus.favorability + 1, 10);
           }
 
           data.preResult = 1;
+
+          catReaction(name, addPoint);
 
           return;
         }
@@ -417,6 +423,7 @@ public class Character : MonoBehaviour
         if(name == data.curCatStatus.cat.noAction[i])
         {
           data.curCatStatus.favorability -= 1;
+          addPoint = data.curCatStatus.favorability;
 
           if(data.preResult == -1)
           {
@@ -424,6 +431,7 @@ public class Character : MonoBehaviour
           }
 
           data.preResult = -1;
+          catReaction(name, addPoint);
 
           return;
         }
@@ -456,8 +464,6 @@ public class Character : MonoBehaviour
         }
       }
 
-      catReaction(name);
-
       data.preUsedToy = name;
 
       for(int i = 0; i < data.curCatStatus.cat.yesToy.Length; i += 1)
@@ -465,6 +471,8 @@ public class Character : MonoBehaviour
         if(name == data.curCatStatus.cat.yesToy[i])
         {
           data.curCatStatus.favorability += 2;
+          addPoint = data.curCatStatus.favorability;
+          catReaction(name, addPoint);
 
           return;
         }
@@ -475,47 +483,59 @@ public class Character : MonoBehaviour
         if(name == data.curCatStatus.cat.noToy[i])
         {
           data.curCatStatus.favorability -= 2;
+          addPoint = data.curCatStatus.favorability;
+          catReaction(name, addPoint);
 
           return;
         }
       }
+
+
+
     }
 
-    void catReaction(string name)
+    void catReaction(string name, int add)
     {
+
         //preferred Action
         for(int i = 0; i < data.curCatStatus.cat.yesAction.Length; i += 1)
         {
-            Debug.Log(name + " " + data.curCatStatus.cat.yesAction[i]);
+            //Debug.Log(name + " " + data.curCatStatus.cat.yesAction[i]);
 
 
               if(name == data.curCatStatus.cat.yesAction[i])
               {
-                if(data.curCatStatus.favorability < 3)
+                if(data.curCatStatus.favorability + add < 3)
                 {
                   int r = Random.Range(1, 3);
-                  Debug.Log(r);
+                  Debug.Log("animOrder " + r);
+                  Debug.Log("point " + data.curCatStatus.favorability);
+
                   if(r == 1) catAnim.SetTrigger("p1y1");
                   if(r == 2) catAnim.SetTrigger("p1y2");
                   if(r == 3) catAnim.SetTrigger("p1y3");
                 }
 
-                if(data.curCatStatus.favorability == 4)
-                { 
+                if(data.curCatStatus.favorability >= 3 && data.curCatStatus.favorability <= 5)
+                {
+                  Debug.Log("point " + data.curCatStatus.favorability);
                   Debug.Log("1-2");
                   catAnim.SetTrigger("p1-p2");
                 }
 
-                if(data.curCatStatus.favorability > 4 && data.curCatStatus.favorability < 6)
+                if(data.curCatStatus.favorability >= 6 && data.curCatStatus.favorability < 7)
                 {
                   int r = Random.Range(1, 3);
+                  Debug.Log("animOrder " + r);
+                  Debug.Log("point " + data.curCatStatus.favorability);
                   if(r == 1) catAnim.SetTrigger("approach1");
                   if(r == 2) catAnim.SetTrigger("approach2");
                   if(r == 3) catAnim.SetTrigger("approach3");
                 }
 
-                if(data.curCatStatus.favorability > 6)
+                if(data.curCatStatus.favorability >= 7)
                 {
+                  Debug.Log("happy");
                   catAnim.SetTrigger("happy");
                 }
               }
@@ -524,7 +544,7 @@ public class Character : MonoBehaviour
         //not preferred action
         for(int i = 0; i < data.curCatStatus.cat.noAction.Length; i += 1)
         {
-          Debug.Log(name + " ! " + data.curCatStatus.cat.noAction[i]);
+          //Debug.Log(name + " ! " + data.curCatStatus.cat.noAction[i]);
 
               if(name == data.curCatStatus.cat.noAction[i])
               {
@@ -578,26 +598,34 @@ public class Character : MonoBehaviour
                 if(data.curCatStatus.favorability < 3)
                 {
                   int r = Random.Range(1, 3);
+                  Debug.Log("animOrder " + r);
+                  Debug.Log("point " + data.curCatStatus.favorability);
+
                   if(r == 1) catAnim.SetTrigger("p1y1");
                   if(r == 2) catAnim.SetTrigger("p1y2");
                   if(r == 3) catAnim.SetTrigger("p1y3");
                 }
 
-                if(data.curCatStatus.favorability == 4)
+                if(data.curCatStatus.favorability >= 3 && data.curCatStatus.favorability <= 5)
                 {
+                  Debug.Log("point " + data.curCatStatus.favorability);
+                  Debug.Log("1-2");
                   catAnim.SetTrigger("p1-p2");
                 }
 
-                if(data.curCatStatus.favorability > 4 && data.curCatStatus.favorability < 6)
+                if(data.curCatStatus.favorability >= 6 && data.curCatStatus.favorability < 7)
                 {
                   int r = Random.Range(1, 3);
+                  Debug.Log("animOrder " + r);
+                  Debug.Log("point " + data.curCatStatus.favorability);
                   if(r == 1) catAnim.SetTrigger("approach1");
                   if(r == 2) catAnim.SetTrigger("approach2");
                   if(r == 3) catAnim.SetTrigger("approach3");
                 }
 
-                if(data.curCatStatus.favorability > 6)
+                if(data.curCatStatus.favorability > 7)
                 {
+                  Debug.Log("happy");
                   catAnim.SetTrigger("happy");
                 }
               }

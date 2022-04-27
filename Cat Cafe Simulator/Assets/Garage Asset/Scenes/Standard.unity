@@ -917,7 +917,7 @@ GameObject:
   - component: {fileID: 223882197}
   - component: {fileID: 223882196}
   m_Layer: 5
-  m_Name: Item1 (6)
+  m_Name: Laser
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1006,7 +1006,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 7f0a86a138b8a36409d02a3f41820594, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 4e449cc9cf1c20b47a910351071b83bc, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -3875,7 +3875,7 @@ GameObject:
   - component: {fileID: 686650025}
   - component: {fileID: 686650024}
   m_Layer: 5
-  m_Name: Item1 (2)
+  m_Name: Bell
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3964,7 +3964,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 53a18cfb616e13042a297fcba34ae8e3, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 232e6e089d11fb945a708272b3cc6a83, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -4674,7 +4674,7 @@ GameObject:
   - component: {fileID: 836652730}
   - component: {fileID: 836652729}
   m_Layer: 5
-  m_Name: Item1 (3)
+  m_Name: Scratcher
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4763,7 +4763,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 4e449cc9cf1c20b47a910351071b83bc, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 7f0a86a138b8a36409d02a3f41820594, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -6127,7 +6127,7 @@ GameObject:
   - component: {fileID: 1201750619}
   - component: {fileID: 1201750618}
   m_Layer: 5
-  m_Name: Item1 (4)
+  m_Name: Catnip
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6216,7 +6216,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 2d8ee1b43cc477840a895cf1df3552f9, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 53a18cfb616e13042a297fcba34ae8e3, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -7766,7 +7766,7 @@ GameObject:
   - component: {fileID: 1379594278}
   - component: {fileID: 1379594277}
   m_Layer: 5
-  m_Name: Item1 (1)
+  m_Name: Snack
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -7855,7 +7855,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 232e6e089d11fb945a708272b3cc6a83, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 2d8ee1b43cc477840a895cf1df3552f9, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -8393,7 +8393,7 @@ GameObject:
   - component: {fileID: 1541230767}
   - component: {fileID: 1541230766}
   m_Layer: 5
-  m_Name: Item1 (5)
+  m_Name: fish
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -9992,7 +9992,7 @@ GameObject:
   - component: {fileID: 1855129431}
   - component: {fileID: 1855129430}
   m_Layer: 5
-  m_Name: Item1
+  m_Name: Teaser
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -10007,7 +10007,7 @@ RectTransform:
   m_GameObject: {fileID: 1855129428}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 1.01, y: 1.01, z: 1.01}
   m_Children: []
   m_Father: {fileID: 1265425864}
   m_RootOrder: 0
@@ -12566,7 +12566,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6589252229218445836, guid: dae49878d7646124d86c5145171ccac0, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 6.864
+      value: 5.37
       objectReference: {fileID: 0}
     - target: {fileID: 6589252229218445836, guid: dae49878d7646124d86c5145171ccac0, type: 3}
       propertyPath: m_LocalPosition.y
@@ -12574,7 +12574,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6589252229218445836, guid: dae49878d7646124d86c5145171ccac0, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -6.35
+      value: -4.25
       objectReference: {fileID: 0}
     - target: {fileID: 6589252229218445836, guid: dae49878d7646124d86c5145171ccac0, type: 3}
       propertyPath: m_LocalRotation.w
