@@ -7,8 +7,6 @@ public class CharacterCamera : MonoBehaviour
   public GameObject character;
   private float cameraDistance = -3f;
 
-  public bool moveable = true;
-
   private float x = 0;
 
     // Start is called before the first frame update
@@ -20,7 +18,7 @@ public class CharacterCamera : MonoBehaviour
     // Update is called once per frame
     void LateUpdate()
     {
-      if(!moveable) return;
+      if(character.GetComponent<Character>().mainUI.GetComponent<UIController>().inBattle) return;
 
       float curDegree = transform.localEulerAngles.x;
 

@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class UIController : MonoBehaviour
 {
@@ -29,6 +30,13 @@ public class UIController : MonoBehaviour
     private float hintCurTime;
     private Color hintTargetColor;
 
+    public TMP_Text[] catsNameText;
+
+    public Button giveUpButton;
+
+    public Image interactWithPic;
+    public Text interactWithText;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -46,6 +54,15 @@ public class UIController : MonoBehaviour
       }
 
       bagButton.onClick.AddListener(delegate{bagLayout.SetActive(!bagisAble);  bagisAble = !bagisAble;});
+
+      giveUpButton.onClick.AddListener(
+        delegate
+        {
+          GameObject curCat = GameObject.Find(character.GetComponent<Character>().data.curCatStatus.cat.name);
+          curCat.GetComponent<catReact>().catLeave();
+          inBattle = false;
+        }
+      );
     }
 
     void buyItem(int index)
@@ -61,8 +78,6 @@ public class UIController : MonoBehaviour
 
       character.GetComponent<Character>().data.curToys[index] += 3;
       character.GetComponent<Character>().data.money -= character.GetComponent<Character>().toys[index].cost;
-
-      money.text = character.GetComponent<Character>().data.money + "";
     }
 
     void useItem(int index)
@@ -92,6 +107,88 @@ public class UIController : MonoBehaviour
       if(hintCurTime < hintDuration)
       {
         processHint();
+      }
+
+      for(int i = 0; i < catsNameText.Length; i += 1)
+      {
+        catsNameText[i].transform.eulerAngles = new Vector3(
+          character.transform.localEulerAngles.x,
+          character.transform.localEulerAngles.y,
+          character.transform.localEulerAngles.z
+        );
+
+        if(inBattle)
+        {
+            catsNameText[i].color = new Color(1.0f, 1.0f, 1.0f, 0.0f);
+        }
+        else if(character.GetComponent<Character>().data.curCatResult[i] == 0)
+        {
+          catsNameText[i].color = new Color(1.0f, 1.0f, 1.0f);
+        }
+        else if (character.GetComponent<Character>().data.curCatResult[i] == -1)
+        {
+          catsNameText[i].color = new Color(0.8f, 0.0f, 0.0f);
+        }
+        else
+        {
+          catsNameText[i].color = new Color(0.0f, 1.0f, 0.0f);
+        }
+      }
+
+      money.text = character.GetComponent<Character>().data.money + "";
+
+      if(!inBattle)
+      {
+        GameObject[] catsInScene = GameObject.FindGameObjectsWithTag("Cat");
+        float dis = 999;
+        int index = -1;
+
+        for (int i = 0; i < catsInScene.Length; i += 1)
+        {
+          float curDis = Vector3.Distance(catsInScene[i].transform.position, character.transform.position);
+          if(curDis < dis)
+          {
+            dis = curDis;
+            index = i;
+          }
+        }
+
+        if(dis < 1)
+        {
+          interactWithPic.gameObject.SetActive(true);
+
+          for (int i = 0; i < character.GetComponent<Character>().cats.Length; i += 1)
+          {
+            if(character.GetComponent<Character>().cats[i].name == catsInScene[index].name)
+            {
+              if(character.GetComponent<Character>().data.curCatResult[i] == 0)
+              {
+                interactWithText.text = "$" + character.GetComponent<Character>().cats[i].cost + ": Interact with " + character.GetComponent<Character>().cats[i].name;
+                interactWithText.color = new Color(0.94f, 0.84f, 0.0f);
+              }
+              else if(character.GetComponent<Character>().data.curCatResult[i] == -1)
+              {
+                interactWithText.text = character.GetComponent<Character>().cats[i].name + " has been interacted";
+                interactWithText.color = new Color(0.8f, 0.0f, 0.0f);
+              }
+              else
+              {
+                interactWithText.text = character.GetComponent<Character>().cats[i].name + " has been interacted Successfully";
+                interactWithText.color = new Color(0.0f, 0.8f, 0.0f);
+              }
+
+              break;
+            }
+          }
+        }
+        else
+        {
+          interactWithPic.gameObject.SetActive(false);
+        }
+      }
+      else
+      {
+        interactWithPic.gameObject.SetActive(false);
       }
 
       if(!inBattle) return;

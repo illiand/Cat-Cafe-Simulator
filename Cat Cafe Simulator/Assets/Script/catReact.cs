@@ -61,18 +61,79 @@ public class catReact : MonoBehaviour
               r = Random.Range(1, 4);
             }
 
-            if(r == 3)
+            if(r == 1 || r == 2)
             {
-                v = new Vector2(Random.Range(-5, 5), Random.Range(-5, 5));
-                previousV = new Vector2(transform.position.x, transform.position.z);
+              animTime = Random.Range(3, 6);
+              curTime = animTime;
+            }
+            else if(r == 3)
+            {
+                float xMovement = Random.Range(0, 2) == 0 ? Random.Range(-4.0f, -1.5f) : Random.Range(1.5f, 4.0f);
+                float yMovement = Random.Range(0, 2) == 0 ? Random.Range(-4.0f, -1.5f) : Random.Range(1.5f, 4.0f);
+                moveForward(new Vector2(xMovement, yMovement), Random.Range(4.0f, 7.0f));
             }
 
             disableAnimation();
             catAnim.SetBool(preStatus + "-" + r, true);
-
-            animTime = Random.Range(5, 10);
-            curTime = animTime;
         }
+    }
+
+    public void moveForward(Vector2 pos, float duration)
+    {
+      v = new Vector2(pos.x, pos.y);
+      previousV = new Vector2(transform.position.x, transform.position.z);
+      animTime = duration;
+      curTime = duration;
+    }
+
+    public void catLeave()
+    {
+      isIdle = true;
+      disableAnimation();
+      catAnim.Play("Base Layer.idle3");
+      r = 3;
+
+      GameObject camera = GameObject.Find("Main Camera");
+
+      float dirFactor = 1.0f;
+
+      while(Vector2.Distance(transform.position, new Vector3(camera.transform.position.x, 0, camera.transform.position.z)) * dirFactor < 1.5f)
+      {
+        dirFactor *= 1.25f;
+      }
+
+      Vector2 moveDis = new Vector2(
+        ((transform.position - new Vector3(camera.transform.position.x, 0, camera.transform.position.z)) * dirFactor).x,
+        ((transform.position - new Vector3(camera.transform.position.x, 0, camera.transform.position.z)) * dirFactor).z
+      );
+
+      moveForward(moveDis, Random.Range(2.0f, 3.0f));
+      setCatStatus(false);
+    }
+
+    public void catHappy()
+    {
+      isIdle = true;
+      disableAnimation();
+      catAnim.Play("Base Layer.idle1");
+      r = 1;
+
+      setCatStatus(true);
+    }
+
+    public void setCatStatus(bool success)
+    {
+      GameObject character = GameObject.Find("Character");
+
+      for(int i = 0; i < character.GetComponent<Character>().cats.Length; i += 1)
+      {
+        if(this.name == character.GetComponent<Character>().cats[i].name)
+        {
+          character.GetComponent<Character>().data.curCatResult[i] = success ? 1 : -1;
+
+          return;
+        }
+      }
     }
 
     public void disableAnimation()

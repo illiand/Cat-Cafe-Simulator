@@ -97,8 +97,20 @@ public class Character : MonoBehaviour
           }
         }
 
-        if(index != -1 && dis < 2)
+        if(index != -1 && dis < 1)
         {
+          int catArrayIndex = -1;
+
+          for (int i = 0; i < cats.Length; i += 1)
+          {
+            if(cats[i].name == catsInScene[index].name)
+            {
+              catArrayIndex = i;
+
+              break;
+            }
+          }
+
           initRound(catsInScene[index]);
 
           catsInScene[index].transform.LookAt(transform.position);
@@ -106,7 +118,6 @@ public class Character : MonoBehaviour
           catsInScene[index].GetComponent<catReact>().catAnim.Play("Base Layer.pa");
           catsInScene[index].GetComponent<catReact>().disableAnimation();
           catsInScene[index].GetComponent<catReact>().r = 1;
-          GameObject.FindGameObjectsWithTag("MainCamera")[0].GetComponent<CharacterCamera>().moveable = false;
         }
       }
 
@@ -141,6 +152,7 @@ public class Character : MonoBehaviour
       data = new GameData();
       data.money = 100;
       data.curToys = new int[]{0, 0, 0, 0, 0, 0, 0};
+      data.curCatResult = new int[]{0, 0, 0, 0, 0, 0, 0, 0};
 
       cats = new Cat[8];
 
@@ -157,7 +169,7 @@ public class Character : MonoBehaviour
 
       Cat cat2 = new Cat();
       cat2.name = "Bombay";
-      cat1.cost = 15;
+      cat2.cost = 15;
       cat2.yesToy = new string[]{"Snack", "Catnip", "Scratcher", "Wagging Fish"};
       cat2.noToy = new string[]{"Bell", "Teaser", "Laser Pointer"};
       cat2.yesAction = new string[]{"Slowly Approach", "Holding its head and bottom with gentle hands"};
@@ -168,7 +180,7 @@ public class Character : MonoBehaviour
 
       Cat cat3 = new Cat();
       cat3.name = "Ocicat";
-      cat1.cost = 30;
+      cat3.cost = 30;
       cat3.yesToy = new string[]{"Laser Pointer", "Bell", "Teaser", "Snack"};
       cat3.noToy = new string[]{"Catnip", "Wagging Fish", "Scratcher"};
       cat3.yesAction = new string[]{"Call Approach", "Hold it on your shoulder", "Touch the back ear - Gently touch", "Touch the chin - Gently touch"};
@@ -179,7 +191,7 @@ public class Character : MonoBehaviour
 
       Cat cat4 = new Cat();
       cat4.name = "Siamese";
-      cat1.cost = 15;
+      cat4.cost = 15;
       cat4.yesToy = new string[]{"Teaser", "Bell", "Scratcher", "Wagging Fish", "Laser Pointer"};
       cat4.noToy = new string[]{"Snack", "Catnip"};
       cat4.yesAction = new string[]{"Call Approach", "Beckon Approach", "Lift up", "Touch the back ear - Quick Rub", "Touch the chin - Quick Rub", "Touch the back ear - Harder Rub", "Touch the chin - Harder Rub"};
@@ -190,7 +202,7 @@ public class Character : MonoBehaviour
 
       Cat cat5 = new Cat();
       cat5.name = "Maine Coon";
-      cat1.cost = 30;
+      cat5.cost = 30;
       cat5.yesToy = new string[]{"Snack", "Catnip", "Scratcher"};
       cat5.noToy = new string[]{"Laser Pointer", "Teaser", "Bell", "Wagging Fish"};
       cat5.yesAction = new string[]{"Slowly Approach", "Hold it on your shoulder", "Touch the back ear - Gently touch", "Touch the chin - Gently touch"};
@@ -200,7 +212,7 @@ public class Character : MonoBehaviour
       cats[4] = cat5;
 
       Cat cat6 = new Cat();
-      cat1.cost = 20;
+      cat6.cost = 20;
       cat6.name = "American Bobtail";
       cat6.yesToy = new string[]{"Teaser", "Laser Pointer", "Wagging Fish", "Snack", "Catnip"};
       cat6.noToy = new string[]{"Scratcher", "Bell"};
@@ -212,7 +224,7 @@ public class Character : MonoBehaviour
 
       Cat cat7 = new Cat();
       cat7.name = "Turnish Angora";
-      cat1.cost = 20;
+      cat7.cost = 20;
       cat7.yesToy = new string[]{"Teaser", "Catnip", "Laser Pointer", "Bell", "Scratcher"};
       cat7.noToy = new string[]{"Wagging Fish", "Snack"};
       cat7.yesAction = new string[]{"Hold it on your shoulder", "Touch the back ear - Harder Rub", "Touch the chin - Harder Rub"};
@@ -223,7 +235,7 @@ public class Character : MonoBehaviour
 
       Cat cat8 = new Cat();
       cat8.name = "Russian Blue";
-      cat1.cost = 20;
+      cat8.cost = 20;
       cat8.yesToy = new string[]{"Scratcher", "Laser Pointer", "Catnip"};
       cat8.noToy = new string[]{"Teaser", "Snack", "Belly", "Wagging fish"};
       cat8.yesAction = new string[]{"Touch the chin - Gently touch", "Touch the chin - Quick Rub", "Touch the chin - Harder Rub", "Touch the back ear - Gently touch"};
@@ -391,9 +403,6 @@ public class Character : MonoBehaviour
       }
 
       data.actionPoint -= 1;
-
-      //catReaction(name, addPoint);
-      //catReaction(name);
 
       for(int i = 0; i < data.curCatStatus.cat.yesAction.Length; i += 1)
       {
@@ -688,6 +697,8 @@ public class Character : MonoBehaviour
 
       public int preResult;
       public string preUsedToy;
+
+      public int[] curCatResult;
     }
 
     public class Cat

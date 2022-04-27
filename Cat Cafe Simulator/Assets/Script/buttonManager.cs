@@ -22,6 +22,15 @@ public class buttonManager : MonoBehaviour
     {
         if(player.GetComponent<Character>().data.curCatStatus == null)return;
 
+        if(!player.GetComponent<Character>().mainUI.GetComponent<UIController>().inBattle)
+        {
+          action1.SetActive(false);
+          action2.SetActive(false);
+          action3.SetActive(false);
+
+          return;
+        }
+
         p = player.GetComponent<Character>().data.curCatStatus.favorability;
 
         if(p < 4)
