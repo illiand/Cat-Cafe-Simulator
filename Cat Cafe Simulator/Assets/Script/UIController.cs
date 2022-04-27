@@ -18,6 +18,10 @@ public class UIController : MonoBehaviour
     public Button bagButton;
     public GameObject bagLayout;
     public bool bagisAble = true;
+
+    public Canvas battleLayout;
+    public bool inBattle;
+    public Text CatAttriText;
     // Start is called before the first frame update
     void Start()
     {
@@ -58,6 +62,24 @@ public class UIController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+      for(int i = 0; i < 7; i += 1)
+      {
+        itemCount[i].text = character.GetComponent<Character>().data.curToys[i] + "";
+
+        if(character.GetComponent<Character>().data.curToys[i] > 0)
+        {
+          itemCount[i].color = Color.green;
+        }
+        else
+        {
+          itemCount[i].color = Color.red;
+        }
+      }
+
+      battleLayout.gameObject.SetActive(inBattle);
+
+      if(!inBattle) return;
+
       for(int i = 0; i < 3; i += 1)
       {
         actionPointPics[i].enabled = i < character.GetComponent<Character>().data.actionPoint;
@@ -75,18 +97,15 @@ public class UIController : MonoBehaviour
         }
       }
 
-      for(int i = 0; i < 7; i += 1)
+      if(character.GetComponent<Character>().data.curCatStatus.favorability == -1)
       {
-        itemCount[i].text = character.GetComponent<Character>().data.curToys[i] + "";
-
-        if(character.GetComponent<Character>().data.curToys[i] > 0)
-        {
-          itemCount[i].color = Color.green;
-        }
-        else
-        {
-          itemCount[i].color = Color.red;
-        }
+        FlavPics[7].color = Color.red;
       }
+      else
+      {
+        FlavPics[7].color = Color.green;
+      }
+
+      CatAttriText.text = character.GetComponent<Character>().data.curCatStatus.cat.name + " ~ " + character.GetComponent<Character>().data.curCatStatus.cat.characteristic + " ~";
     }
 }

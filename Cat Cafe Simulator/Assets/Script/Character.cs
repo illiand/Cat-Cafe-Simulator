@@ -12,12 +12,6 @@ public class Character : MonoBehaviour
     public Action[] actions;
     public Animator catAnim;
 
-    public Texture Face1;
-    public Texture Face2;
-    public Texture Face3;
-    public Texture Face4;
-    public Texture Face5;
-
     private string action;
 
     public Button act11;
@@ -35,6 +29,8 @@ public class Character : MonoBehaviour
     public Button act34;
     public Button act35;
     public Button act36;
+
+    public Canvas mainUI;
 
     // Start is called before the first frame update
     void Start()
@@ -57,6 +53,11 @@ public class Character : MonoBehaviour
 
     void handleUserInput()
     {
+      if(mainUI.GetComponent<UIController>().inBattle)
+      {
+        return;
+      }
+
       float speed = 1.0f;
 
       if (Input.GetKey(KeyCode.S))
@@ -100,6 +101,7 @@ public class Character : MonoBehaviour
           initRound(catsInScene[index]);
 
           catsInScene[index].transform.LookAt(transform.position);
+          GameObject.Find("Main Camera").transform.LookAt(new Vector3(catsInScene[index].transform.position.x, transform.position.y, catsInScene[index].transform.position.z));
           catsInScene[index].GetComponent<catReact>().catAnim.Play("Base Layer.pa");
           catsInScene[index].GetComponent<catReact>().disableAnimation();
           catsInScene[index].GetComponent<catReact>().r = 1;
@@ -126,8 +128,6 @@ public class Character : MonoBehaviour
       act34.onClick.AddListener(delegate{useAction("Touch the chin - Gently touch");});
       act35.onClick.AddListener(delegate{useAction("Touch the chin - Quick Rub");});
       act36.onClick.AddListener(delegate{useAction("Touch the chin - Harder Rub");});
-
-
     }
 
     public void initData()
@@ -357,6 +357,8 @@ public class Character : MonoBehaviour
           data.curCatStatus.favorability = cats[i].initFavorability;
           data.curCatStatus.resistAction = new ArrayList();
 
+          mainUI.GetComponent<UIController>().inBattle = true;
+
           break;
         }
       }
@@ -381,7 +383,7 @@ public class Character : MonoBehaviour
           //cat's resistance
           for(int j = 0; j < data.curCatStatus.resistAction.Count; i += 1)
           {
-            if(data.curCatStatus.resistAction[j] == name)
+            if((string)data.curCatStatus.resistAction[j] == name)
             {
               return;
             }
@@ -607,7 +609,7 @@ public class Character : MonoBehaviour
 
                 if(data.curCatStatus.favorability == 3)
                 {
-                   catAnim.SetBool("p2-p1", true);
+                   catAnim.SetTrigger("p2-p1");
                 }
 
                 if(data.curCatStatus.favorability > 3 && data.curCatStatus.favorability < 6)

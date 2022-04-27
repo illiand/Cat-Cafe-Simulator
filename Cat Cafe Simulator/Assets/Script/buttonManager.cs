@@ -20,7 +20,7 @@ public class buttonManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(player == null)return;
+        if(player.GetComponent<Character>().data.curCatStatus == null)return;
 
         p = player.GetComponent<Character>().data.curCatStatus.favorability;
 

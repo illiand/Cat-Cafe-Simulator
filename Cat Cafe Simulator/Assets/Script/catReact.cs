@@ -41,9 +41,12 @@ public class catReact : MonoBehaviour
 
         if(r == 3)
         {
-            Vector2 diff = Vector2.Lerp(previousV, previousV + v, (animTime - curTime) / animTime);
-            transform.position = new Vector3(diff.x, transform.position.y, diff.y);
+            transform.GetComponent<Rigidbody>().velocity = new Vector3(v.x / animTime, 0,v.y / animTime);
             transform.LookAt(new Vector3((previousV + v).x, transform.position.y, (previousV + v).y));
+        }
+        else
+        {
+          transform.GetComponent<Rigidbody>().velocity = new Vector3(0, 0, 0);
         }
     }
 
