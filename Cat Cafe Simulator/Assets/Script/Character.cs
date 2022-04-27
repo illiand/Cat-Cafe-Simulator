@@ -128,6 +128,11 @@ public class Character : MonoBehaviour
       act34.onClick.AddListener(delegate{useAction("Touch the chin - Gently touch");});
       act35.onClick.AddListener(delegate{useAction("Touch the chin - Quick Rub");});
       act36.onClick.AddListener(delegate{useAction("Touch the chin - Harder Rub");});
+
+      // if(data.curCatStatus != null)
+      // {
+      //   Debug.Log(data.curCatStatus.favorability);
+      // }
     }
 
     public void initData()
@@ -482,13 +487,15 @@ public class Character : MonoBehaviour
                 if(data.curCatStatus.favorability < 3)
                 {
                   int r = Random.Range(1, 3);
+                  Debug.Log(r);
                   if(r == 1) catAnim.SetTrigger("p1y1");
                   if(r == 2) catAnim.SetTrigger("p1y2");
                   if(r == 3) catAnim.SetTrigger("p1y3");
                 }
 
                 if(data.curCatStatus.favorability == 4)
-                {
+                { 
+                  Debug.Log("1-2");
                   catAnim.SetTrigger("p1-p2");
                 }
 
