@@ -213,7 +213,7 @@ public class Character : MonoBehaviour
       Cat cat7 = new Cat();
       cat7.name = "Turnish Angora";
       cat1.cost = 20;
-      cat7.yesToy = new string[]{"Teaser", "Catnip", "Laser pointer", "Bell", "Scratcher"};
+      cat7.yesToy = new string[]{"Teaser", "Catnip", "Laser Pointer", "Bell", "Scratcher"};
       cat7.noToy = new string[]{"Wagging Fish", "Snack"};
       cat7.yesAction = new string[]{"Hold it on your shoulder", "Touch the back ear - Harder Rub", "Touch the chin - Harder Rub"};
       cat7.noAction = new string[]{"Touch the back ear - Gently touch", "Touch the back ear - Quick Rub", "Touch the back ear - Harder Rub"};
@@ -224,7 +224,7 @@ public class Character : MonoBehaviour
       Cat cat8 = new Cat();
       cat8.name = "Russian Blue";
       cat1.cost = 20;
-      cat8.yesToy = new string[]{"Scratcher", "Laser pointer", "Catnip"};
+      cat8.yesToy = new string[]{"Scratcher", "Laser Pointer", "Catnip"};
       cat8.noToy = new string[]{"Teaser", "Snack", "Belly", "Wagging fish"};
       cat8.yesAction = new string[]{"Touch the chin - Gently touch", "Touch the chin - Quick Rub", "Touch the chin - Harder Rub", "Touch the back ear - Gently touch"};
       cat8.noAction = new string[]{"Lift up", "Holding its head and bottom with gentle hands", "Hold it on your shoulder", "Touch the back ear - Harder Rub", "Touch the chin - Harder Rub"};
@@ -413,7 +413,7 @@ public class Character : MonoBehaviour
           data.preResult = 1;
 
           catReaction(name, addPoint);
-          
+
           return;
         }
       }
@@ -473,7 +473,7 @@ public class Character : MonoBehaviour
           data.curCatStatus.favorability += 2;
           addPoint = data.curCatStatus.favorability;
           catReaction(name, addPoint);
-          
+
           return;
         }
       }
@@ -489,13 +489,13 @@ public class Character : MonoBehaviour
           return;
         }
       }
-      
-      
+
+
 
     }
 
     void catReaction(string name, int add)
-    {   
+    {
 
         //preferred Action
         for(int i = 0; i < data.curCatStatus.cat.yesAction.Length; i += 1)
@@ -517,14 +517,14 @@ public class Character : MonoBehaviour
                 }
 
                 if(data.curCatStatus.favorability >= 3 && data.curCatStatus.favorability <= 5)
-                { 
+                {
                   Debug.Log("point " + data.curCatStatus.favorability);
                   Debug.Log("1-2");
                   catAnim.SetTrigger("p1-p2");
                 }
 
                 if(data.curCatStatus.favorability >= 6 && data.curCatStatus.favorability < 7)
-                { 
+                {
                   int r = Random.Range(1, 3);
                   Debug.Log("animOrder " + r);
                   Debug.Log("point " + data.curCatStatus.favorability);
@@ -534,7 +534,7 @@ public class Character : MonoBehaviour
                 }
 
                 if(data.curCatStatus.favorability >= 7)
-                { 
+                {
                   Debug.Log("happy");
                   catAnim.SetTrigger("happy");
                 }
@@ -596,7 +596,7 @@ public class Character : MonoBehaviour
               if(name == data.curCatStatus.cat.yesToy[i])
               {
                 if(data.curCatStatus.favorability < 3)
-                { 
+                {
                   int r = Random.Range(1, 3);
                   Debug.Log("animOrder " + r);
                   Debug.Log("point " + data.curCatStatus.favorability);
@@ -607,7 +607,7 @@ public class Character : MonoBehaviour
                 }
 
                 if(data.curCatStatus.favorability >= 3 && data.curCatStatus.favorability <= 5)
-                { 
+                {
                   Debug.Log("point " + data.curCatStatus.favorability);
                   Debug.Log("1-2");
                   catAnim.SetTrigger("p1-p2");
@@ -624,7 +624,7 @@ public class Character : MonoBehaviour
                 }
 
                 if(data.curCatStatus.favorability > 7)
-                { 
+                {
                   Debug.Log("happy");
                   catAnim.SetTrigger("happy");
                 }
