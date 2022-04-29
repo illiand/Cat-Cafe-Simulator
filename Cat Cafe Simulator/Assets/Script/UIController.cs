@@ -10,6 +10,7 @@ public class UIController : MonoBehaviour
     public Button[] useToyButton;
     public Text[] itemCount;
     public Text money;
+    public Text score;
     public GameObject character;
 
     public Image[] actionPointPics;
@@ -18,7 +19,7 @@ public class UIController : MonoBehaviour
 
     public Button bagButton;
     public GameObject bagLayout;
-    public bool bagisAble = true;
+    public bool bagVisible = false;
 
     public Canvas battleLayout;
     public bool inBattle;
@@ -37,6 +38,10 @@ public class UIController : MonoBehaviour
     public Image interactWithPic;
     public Text interactWithText;
 
+    public Button bookButton;
+    public Image bookLayout;
+    private bool bookVisible;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -53,7 +58,7 @@ public class UIController : MonoBehaviour
         useToyButton[i].onClick.AddListener(delegate{useItem(j);});
       }
 
-      bagButton.onClick.AddListener(delegate{bagLayout.SetActive(!bagisAble);  bagisAble = !bagisAble;});
+      bagButton.onClick.AddListener(delegate{bagLayout.SetActive(!bagVisible);  bagVisible = !bagVisible;});
 
       giveUpButton.onClick.AddListener(
         delegate
@@ -61,6 +66,14 @@ public class UIController : MonoBehaviour
           GameObject curCat = GameObject.Find(character.GetComponent<Character>().data.curCatStatus.cat.name);
           curCat.GetComponent<catReact>().catLeave();
           inBattle = false;
+        }
+      );
+
+      bookButton.onClick.AddListener(
+        delegate
+        {
+          bookLayout.gameObject.SetActive(!bookVisible);
+          bookVisible = !bookVisible;
         }
       );
     }
@@ -109,6 +122,56 @@ public class UIController : MonoBehaviour
         processHint();
       }
 
+
+      if(Mathf.Abs(character.GetComponent<Character>().data.UIMoney - character.GetComponent<Character>().data.money) < 0.2f)
+      {
+        character.GetComponent<Character>().data.UIMoney = character.GetComponent<Character>().data.money;
+        money.color = new Color(1.0f, 1.0f, 0.0f);
+      }
+      else if(character.GetComponent<Character>().data.UIMoney < character.GetComponent<Character>().data.money)
+      {
+        character.GetComponent<Character>().data.UIMoney += 0.2f;
+
+        Vector3 v1 = new Vector3(0.0f, 1.0f, 0.0f);
+        Vector3 v2 = new Vector3(1.0f, 1.0f, 0.0f);
+        float a = Mathf.Clamp(((float)character.GetComponent<Character>().data.money - character.GetComponent<Character>().data.UIMoney) / 30.0f, 0.0f, 1.0f);
+        Vector3 color = Vector3.Lerp(v2, v1, a);
+
+        money.color = new Color(color.x, color.y, color.z);
+      }
+      else if(character.GetComponent<Character>().data.UIMoney > character.GetComponent<Character>().data.money)
+      {
+        character.GetComponent<Character>().data.UIMoney -= 0.2f;
+
+        Vector3 v1 = new Vector3(1.0f, 0.0f, 0.0f);
+        Vector3 v2 = new Vector3(1.0f, 1.0f, 0.0f);
+        float a = Mathf.Clamp((character.GetComponent<Character>().data.UIMoney - (float)character.GetComponent<Character>().data.money) / 30.0f, 0.0f, 1.0f);
+        Vector3 color = Vector3.Lerp(v2, v1, a);
+
+        money.color = new Color(color.x, color.y, color.z);
+      }
+
+      money.text = (int)character.GetComponent<Character>().data.UIMoney + "";
+
+      if(Mathf.Abs(character.GetComponent<Character>().data.UIScore - character.GetComponent<Character>().data.score) < 0.2f)
+      {
+        character.GetComponent<Character>().data.UIScore = character.GetComponent<Character>().data.score;
+        score.color = new Color(1.0f, 1.0f, 0.0f);
+      }
+      else if(character.GetComponent<Character>().data.UIScore < character.GetComponent<Character>().data.score)
+      {
+        character.GetComponent<Character>().data.UIScore += 0.5f;
+
+        Vector3 v1 = new Vector3(0.0f, 1.0f, 0.0f);
+        Vector3 v2 = new Vector3(1.0f, 1.0f, 0.0f);
+        float a = Mathf.Clamp(((float)character.GetComponent<Character>().data.score - character.GetComponent<Character>().data.UIScore) / 100.0f, 0.0f, 1.0f);
+        Vector3 color = Vector3.Lerp(v2, v1, a);
+
+        score.color = new Color(color.x, color.y, color.z);
+      }
+
+      score.text = (int)character.GetComponent<Character>().data.UIScore + "";
+
       for(int i = 0; i < catsNameText.Length; i += 1)
       {
         catsNameText[i].transform.eulerAngles = new Vector3(
@@ -134,8 +197,6 @@ public class UIController : MonoBehaviour
           catsNameText[i].color = new Color(0.0f, 1.0f, 0.0f);
         }
       }
-
-      money.text = character.GetComponent<Character>().data.money + "";
 
       if(!inBattle)
       {
@@ -210,7 +271,7 @@ public class UIController : MonoBehaviour
         }
       }
 
-      if(character.GetComponent<Character>().data.curCatStatus.favorability == -1)
+      if(character.GetComponent<Character>().data.curCatStatus.favorability <= -1)
       {
         FlavPics[7].color = Color.red;
       }
