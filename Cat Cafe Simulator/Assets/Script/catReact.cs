@@ -26,6 +26,8 @@ public class catReact : MonoBehaviour
 
     GameObject ui;
 
+    float timer;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -43,11 +45,16 @@ public class catReact : MonoBehaviour
     {
         checkCat();
         curTime -= Time.deltaTime;
+        timer += Time.deltaTime;
 
         if(r == 3)
         {
             transform.GetComponent<Rigidbody>().velocity = new Vector3(v.x / animTime, 0,v.y / animTime);
+
+            // StartCoroutine(WaitForRotation());
+
             transform.LookAt(new Vector3((previousV + v).x, transform.position.y, (previousV + v).y));
+          
         }
         else
         {
@@ -81,10 +88,47 @@ public class catReact : MonoBehaviour
             disableAnimation();
             catAnim.SetBool(preStatus + "-" + r, true);
         }
+
+        if(!isIdle)
+        {
+          GameObject character = GameObject.Find("Character");
+          int curPoint = character.GetComponent<Character>().data.curCatStatus.favorability;
+          //catAnim.Play("leave");
+          if(curPoint <= -2) 
+          { 
+            catAnim.Play("Base Layer.standUp");
+            GameObject.Find("Canvas").GetComponent<UIController>().inBattle = false;
+            
+            StartCoroutine(WaitForRotation());
+            StartCoroutine(WaitForLeave());
+          }
+        }
+    }
+
+    IEnumerator WaitForRotation()
+    { 
+      float time = 0;
+
+      Quaternion start = transform.rotation;
+      Quaternion target = transform.rotation * Quaternion.Euler(0, 180, 0);
+      while(time < 0.5f)
+      {
+        transform.rotation = Quaternion.Slerp(start, target, time / 0.5f);
+        time += Time.deltaTime;
+        yield return null;
+      }
+      transform.rotation = target;
+    }
+
+    IEnumerator WaitForLeave()
+    {
+      catLeave();
+      
+      yield return new WaitForSeconds(2f);
     }
 
     public void moveForward(Vector2 pos, float duration)
-    {
+    { 
       v = new Vector2(pos.x, pos.y);
       previousV = new Vector2(transform.position.x, transform.position.z);
       animTime = duration;
