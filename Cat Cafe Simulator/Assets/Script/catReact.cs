@@ -23,6 +23,9 @@ public class catReact : MonoBehaviour
     float curTime;
 
     public int r = 1;
+
+    GameObject ui;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -31,6 +34,8 @@ public class catReact : MonoBehaviour
         catAnim = GetComponent<Animator>();
 
         catAnim.Play("Base Layer.idle1");
+
+        ui = GameObject.Find("Canvas");
     }
 
     // Update is called once per frame
@@ -96,9 +101,9 @@ public class catReact : MonoBehaviour
       GameObject camera = GameObject.Find("Main Camera");
       
       //hide action ui
-      // GameComponent<Canvas>().action1.SetActive(false);
-      // GameComponent<Canvas>().action2.SetActive(false);
-      // GameComponent<Canvas>().action3.SetActive(false);
+      ui.GetComponent<buttonManager>().action1.SetActive(false);
+      ui.GetComponent<buttonManager>().action2.SetActive(false);
+      ui.GetComponent<buttonManager>().action3.SetActive(false);
 
       float dirFactor = 1.0f;
 
