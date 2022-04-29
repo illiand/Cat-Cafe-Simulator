@@ -417,9 +417,15 @@ public class Character : MonoBehaviour
           if(data.preResult == 1)
           {
             data.curCatStatus.favorability = Mathf.Min(data.curCatStatus.favorability + 1, 10);
-          }
+            data.actionPoint = Mathf.Min(data.actionPoint + 1, 3);
 
-          data.preResult = 1;
+            mainUI.GetComponent<UIController>().showHint("The cat likes you a lot, this action has no cost!", new Color(0.0f, 1.0f, 0.0f), 1.5f);
+            data.preResult = -1;
+          }
+          else
+          {
+            data.preResult = 1;
+          }
 
           catReaction(name, addPoint);
 
@@ -436,10 +442,15 @@ public class Character : MonoBehaviour
 
           if(data.preResult == -1)
           {
-            data.curCatStatus.favorability = Mathf.Max(data.curCatStatus.favorability - 1, 0);
+            data.curCatStatus.favorability = Mathf.Max(data.curCatStatus.favorability - 1, -1);
+            mainUI.GetComponent<UIController>().showHint("The cat started loathing...", new Color(0.8f, 0.0f, 0.0f), 1.5f);
+            data.preResult -= 1;
+          }
+          else
+          {
+            data.preResult = -1;
           }
 
-          data.preResult = -1;
           catReaction(name, addPoint);
 
           return;
