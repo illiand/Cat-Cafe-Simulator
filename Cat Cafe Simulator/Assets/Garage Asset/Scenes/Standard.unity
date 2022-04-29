@@ -1859,7 +1859,7 @@ RectTransform:
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 20, y: 20}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -9950,7 +9950,7 @@ MonoBehaviour:
   - {fileID: 2144064727}
   bagButton: {fileID: 1138315987}
   bagLayout: {fileID: 1265425861}
-  bagisAble: 1
+  bagVisible: 0
   battleLayout: {fileID: 1987138668}
   inBattle: 0
   CatAttriText: {fileID: 691074502}
@@ -10451,7 +10451,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1626184450
 RectTransform:
   m_ObjectHideFlags: 0
