@@ -612,18 +612,18 @@ public class Character : MonoBehaviour
           // Debug.Log("current Point " + data.curCatStatus.favorability);
 
 
-                if(data.curCatStatus.favorability >= 7)
-                {
-                  Debug.Log("happy");
-                  catAnim.SetTrigger("happy");
+          if(data.curCatStatus.favorability >= 7)
+          {
+            Debug.Log("happy");
+            catAnim.SetTrigger("happy");
 
-                  data.score += 592;
+            data.score += 592;
 
-                  data.money += 20;
+            data.money += 20;
 
-                  GameObject.Find(data.curCatStatus.cat.name).GetComponent<catReact>().catHappy();
-                }
-              }
+            GameObject.Find(data.curCatStatus.cat.name).GetComponent<catReact>().catHappy();
+          }
+
         }
       }
 
@@ -675,7 +675,7 @@ public class Character : MonoBehaviour
                   GameObject.Find(data.curCatStatus.cat.name + " - neko:body").GetComponent<Renderer>().materials[1].mainTexture = GameObject.Find(data.curCatStatus.cat.name).GetComponent<catReact>().Face4;
 
                   GameObject.Find(data.curCatStatus.cat.name).GetComponent<catReact>().catLeave();
-                }
+
               }else{
                 GameObject.Find(data.curCatStatus.cat.name + " - neko:body").GetComponent<Renderer>().materials[1].mainTexture = GameObject.Find(data.curCatStatus.cat.name).GetComponent<catReact>().Face3;
               }
@@ -738,11 +738,10 @@ public class Character : MonoBehaviour
 
             data.score += 592;
 
-                  data.money += 20;
+            data.money += 20;
 
-                  GameObject.Find(data.curCatStatus.cat.name).GetComponent<catReact>().catHappy();
-                }
-              }
+            GameObject.Find(data.curCatStatus.cat.name).GetComponent<catReact>().catHappy();
+          }
         }
       }
 
@@ -780,15 +779,16 @@ public class Character : MonoBehaviour
             if(r == 3) catAnim.SetTrigger("np6");
           }
 
-                if(data.curCatStatus.favorability <= -2)
-                {
+              if(data.curCatStatus.favorability <= -2)
+              {
                   //swp face
                   GameObject.Find(data.curCatStatus.cat.name + " - neko:body").GetComponent<Renderer>().materials[1].mainTexture = GameObject.Find(data.curCatStatus.cat.name).GetComponent<catReact>().Face4;
                   catAnim.SetTrigger("lost");
 
                   GameObject.Find(data.curCatStatus.cat.name).GetComponent<catReact>().catLeave();
-                }
-              }else{
+              }
+              else
+              {
                 GameObject.Find(data.curCatStatus.cat.name + " - neko:body").GetComponent<Renderer>().materials[1].mainTexture = GameObject.Find(data.curCatStatus.cat.name).GetComponent<catReact>().Face1;
               }
         }
