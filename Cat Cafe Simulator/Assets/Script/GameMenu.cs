@@ -14,7 +14,7 @@ public class GameMenu : MonoBehaviour
     void Start()
     {
         gameStartButton.onClick.AddListener(delegate{
-          SceneManager.LoadScene("Standard");
+          SceneManager.LoadScene("CoffeeShop");
         });
     }
 
