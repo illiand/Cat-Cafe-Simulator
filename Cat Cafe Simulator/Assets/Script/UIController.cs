@@ -42,6 +42,11 @@ public class UIController : MonoBehaviour
     public Image bookLayout;
     private bool bookVisible;
 
+    public Button instructionButton;
+    public Image instructionLayout;
+
+    public Text goalText;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -74,6 +79,14 @@ public class UIController : MonoBehaviour
         {
           bookLayout.gameObject.SetActive(!bookVisible);
           bookVisible = !bookVisible;
+        }
+      );
+
+      instructionButton.onClick.AddListener(
+        delegate
+        {
+          character.GetComponent<Character>().gameStarted = true;
+          Destroy(instructionLayout.gameObject);
         }
       );
     }
@@ -113,6 +126,15 @@ public class UIController : MonoBehaviour
         {
           itemCount[i].color = Color.red;
         }
+      }
+
+      if(character.GetComponent<Character>().data.quest1 == 0)
+      {
+        goalText.text = "* Interact with British Shorthhair, Lucy";
+      }
+      else if(character.GetComponent<Character>().data.quest1 == 1)
+      {
+        goalText.text = "* Interact with all other cats";
       }
 
       battleLayout.gameObject.SetActive(inBattle);

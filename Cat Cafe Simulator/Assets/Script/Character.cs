@@ -6,6 +6,8 @@ using UnityEngine.UI;
 
 public class Character : MonoBehaviour
 {
+    public bool gameStarted;
+
     public GameData data;
     public Cat[] cats;
     public Toy[] toys;
@@ -44,6 +46,11 @@ public class Character : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+      if(!gameStarted)
+      {
+        return;
+      }
+
       handleUserInput();
 
       if(data.money <= 0 && data.actionPoint == 0)
@@ -111,8 +118,19 @@ public class Character : MonoBehaviour
             }
           }
 
+          if(data.quest1 == 0)
+          {
+            if(catsInScene[index].name != "British Shorthhair")
+            {
+              mainUI.GetComponent<UIController>().showHint("Follow the quest to interact with Lucy.", new Color(0.8f, 0.0f, 0.0f), 1.5f);
+
+              return;
+            }
+          }
+
           initRound(catsInScene[index]);
 
+          catsInScene[index].GetComponent<Rigidbody>().isKinematic = false;
           catsInScene[index].transform.LookAt(transform.position);
           GameObject.Find("Main Camera").transform.LookAt(new Vector3(catsInScene[index].transform.position.x, transform.position.y, catsInScene[index].transform.position.z));
           catsInScene[index].GetComponent<catReact>().catAnim.Play("Base Layer.pa");
@@ -757,6 +775,8 @@ public class Character : MonoBehaviour
       public int actionPoint;
       public int[] curToys;
       public CatStatus curCatStatus;
+
+      public int quest1;
 
       public int preResult;
       public string preUsedToy;

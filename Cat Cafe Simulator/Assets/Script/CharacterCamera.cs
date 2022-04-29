@@ -18,6 +18,11 @@ public class CharacterCamera : MonoBehaviour
     // Update is called once per frame
     void LateUpdate()
     {
+      if(!character.GetComponent<Character>().gameStarted)
+      {
+        return;
+      }
+
       if(character.GetComponent<Character>().mainUI.GetComponent<UIController>().inBattle) return;
 
       float curDegree = transform.localEulerAngles.x;
@@ -31,18 +36,5 @@ public class CharacterCamera : MonoBehaviour
       transform.Translate(0, 0.2f, 0);
 
       cameraDistance = Mathf.Clamp(cameraDistance + Input.GetAxis("Mouse ScrollWheel"), -3.5f, -1);
-
-      // RaycastHit hit;
-      //
-      // if (Physics.Linecast(character.transform.position + new Vector3(0, 0.95f, 0), transform.position, out hit))
-      // {
-      //   Color color = new Color(1.0f, 0, 0);
-      //   Debug.DrawLine(transform.position, hit.point, color);
-      //
-      //   if (!hit.collider.isTrigger && hit.rigidbody != character.GetComponents<Rigidbody>()[0])
-      //   {
-      //       transform.Translate(0, 0, Mathf.Min(1f, Vector3.Distance(hit.point, character.transform.position + new Vector3(0, 0.95f, 0))) + Vector3.Distance(hit.point, transform.position));
-      //   }
-      // }
     }
 }

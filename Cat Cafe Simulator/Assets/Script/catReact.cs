@@ -54,7 +54,7 @@ public class catReact : MonoBehaviour
             // StartCoroutine(WaitForRotation());
 
             transform.LookAt(new Vector3((previousV + v).x, transform.position.y, (previousV + v).y));
-          
+
         }
         else
         {
@@ -94,11 +94,11 @@ public class catReact : MonoBehaviour
           GameObject character = GameObject.Find("Character");
           int curPoint = character.GetComponent<Character>().data.curCatStatus.favorability;
           //catAnim.Play("leave");
-          if(curPoint <= -2) 
-          { 
+          if(curPoint <= -2)
+          {
             catAnim.Play("Base Layer.standUp");
             GameObject.Find("Canvas").GetComponent<UIController>().inBattle = false;
-            
+
             StartCoroutine(WaitForRotation());
             StartCoroutine(WaitForLeave());
           }
@@ -106,7 +106,7 @@ public class catReact : MonoBehaviour
     }
 
     IEnumerator WaitForRotation()
-    { 
+    {
       float time = 0;
 
       Quaternion start = transform.rotation;
@@ -123,12 +123,12 @@ public class catReact : MonoBehaviour
     IEnumerator WaitForLeave()
     {
       catLeave();
-      
+
       yield return new WaitForSeconds(2f);
     }
 
     public void moveForward(Vector2 pos, float duration)
-    { 
+    {
       v = new Vector2(pos.x, pos.y);
       previousV = new Vector2(transform.position.x, transform.position.z);
       animTime = duration;
@@ -143,7 +143,7 @@ public class catReact : MonoBehaviour
       r = 3;
 
       GameObject camera = GameObject.Find("Main Camera");
-      
+
       //hide action ui
       ui.GetComponent<buttonManager>().action1.SetActive(false);
       ui.GetComponent<buttonManager>().action2.SetActive(false);
@@ -163,6 +163,8 @@ public class catReact : MonoBehaviour
 
       moveForward(moveDis, Random.Range(2.0f, 3.0f));
       setCatStatus(false);
+
+      GetComponent<Rigidbody>().isKinematic = true;
     }
 
     public void catHappy()
@@ -172,7 +174,13 @@ public class catReact : MonoBehaviour
       catAnim.Play("Base Layer.idle1");
       r = 1;
 
-      setCatStatus(true);
+      setCatStatus(false);
+      GetComponent<Rigidbody>().isKinematic = true;
+
+      if(this.name == "British Shorthhair")
+      {
+        GameObject.Find("Character").GetComponent<Character>().data.quest1 = 1;
+      }
     }
 
     public void setCatStatus(bool success)
