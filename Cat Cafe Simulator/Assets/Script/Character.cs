@@ -151,6 +151,8 @@ public class Character : MonoBehaviour
     {
       data = new GameData();
       data.money = 100;
+      data.UIMoney = 100;
+
       data.curToys = new int[]{0, 0, 0, 0, 0, 0, 0};
       data.curCatResult = new int[]{0, 0, 0, 0, 0, 0, 0, 0};
 
@@ -413,6 +415,8 @@ public class Character : MonoBehaviour
 
           addPoint = data.curCatStatus.favorability;
 
+          data.score += 45;
+
           //add successive bonus
           if(data.preResult == 1)
           {
@@ -421,6 +425,8 @@ public class Character : MonoBehaviour
 
             mainUI.GetComponent<UIController>().showHint("The cat likes you a lot, this action has no cost!", new Color(0.0f, 1.0f, 0.0f), 1.5f);
             data.preResult = -1;
+
+            data.score += 62;
           }
           else
           {
@@ -473,7 +479,7 @@ public class Character : MonoBehaviour
         {
           if(data.curToys[i] == 0)
           {
-            mainUI.GetComponent<UIController>().showHint("No avilable toy.", new Color(0.8f, 0.0f, 0.0f), 1.5f);
+            mainUI.GetComponent<UIController>().showHint("No available toy.", new Color(0.8f, 0.0f, 0.0f), 1.5f);
 
             return;
           }
@@ -493,6 +499,8 @@ public class Character : MonoBehaviour
           data.curCatStatus.favorability += 2;
           addPoint = data.curCatStatus.favorability;
           catReaction(name, addPoint);
+
+          data.score += 238;
 
           return;
         }
@@ -541,6 +549,14 @@ public class Character : MonoBehaviour
                   Debug.Log("point " + data.curCatStatus.favorability);
                   Debug.Log("1-2");
                   catAnim.SetTrigger("p1-p2");
+
+                  data.score += 105;
+
+                  if(!data.curCatStatus.p1)
+                  {
+                    data.money += 50;
+                    data.curCatStatus.p1 = true;
+                  }
                 }
 
                 if(data.curCatStatus.favorability >= 6 && data.curCatStatus.favorability < 7)
@@ -551,12 +567,24 @@ public class Character : MonoBehaviour
                   if(r == 1) catAnim.SetTrigger("approach1");
                   if(r == 2) catAnim.SetTrigger("approach2");
                   if(r == 3) catAnim.SetTrigger("approach3");
+
+                  data.score += 208;
+
+                  if(!data.curCatStatus.p2)
+                  {
+                    data.money += 10;
+                    data.curCatStatus.p2 = true;
+                  }
                 }
 
                 if(data.curCatStatus.favorability >= 7)
                 {
                   Debug.Log("happy");
                   catAnim.SetTrigger("happy");
+
+                  data.score += 592;
+
+                  data.money += 20;
                 }
               }
         }
@@ -631,6 +659,14 @@ public class Character : MonoBehaviour
                   Debug.Log("point " + data.curCatStatus.favorability);
                   Debug.Log("1-2");
                   catAnim.SetTrigger("p1-p2");
+
+                  data.score += 72;
+
+                  if(!data.curCatStatus.p1)
+                  {
+                    data.money += 50;
+                    data.curCatStatus.p1 = true;
+                  }
                 }
 
                 if(data.curCatStatus.favorability >= 6 && data.curCatStatus.favorability < 7)
@@ -641,12 +677,24 @@ public class Character : MonoBehaviour
                   if(r == 1) catAnim.SetTrigger("approach1");
                   if(r == 2) catAnim.SetTrigger("approach2");
                   if(r == 3) catAnim.SetTrigger("approach3");
+
+                  data.score += 143;
+
+                  if(!data.curCatStatus.p2)
+                  {
+                    data.money += 10;
+                    data.curCatStatus.p2 = true;
+                  }
                 }
 
                 if(data.curCatStatus.favorability > 7)
                 {
                   Debug.Log("happy");
                   catAnim.SetTrigger("happy");
+
+                  data.score += 592;
+
+                  data.money += 20;
                 }
               }
         }
@@ -701,6 +749,10 @@ public class Character : MonoBehaviour
     public class GameData
     {
       public int money;
+      public float UIMoney;
+
+      public int score;
+      public float UIScore;
 
       public int actionPoint;
       public int[] curToys;
@@ -742,6 +794,9 @@ public class Character : MonoBehaviour
       public Cat cat;
       public int favorability;
       public ArrayList resistAction;
+
+      public bool p1;
+      public bool p2;
     }
 
     public class ToyStatus
