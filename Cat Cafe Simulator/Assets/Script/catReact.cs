@@ -94,6 +94,11 @@ public class catReact : MonoBehaviour
       r = 3;
 
       GameObject camera = GameObject.Find("Main Camera");
+      
+      //hide action ui
+      // GameComponent<Canvas>().action1.SetActive(false);
+      // GameComponent<Canvas>().action2.SetActive(false);
+      // GameComponent<Canvas>().action3.SetActive(false);
 
       float dirFactor = 1.0f;
 
