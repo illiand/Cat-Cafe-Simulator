@@ -1859,7 +1859,7 @@ RectTransform:
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
+  m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 20, y: 20}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -8742,7 +8742,7 @@ GameObject:
   - component: {fileID: 1364807008}
   - component: {fileID: 1364807007}
   m_Layer: 5
-  m_Name: Scroll View
+  m_Name: BookLayout
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -9968,6 +9968,8 @@ MonoBehaviour:
   giveUpButton: {fileID: 1895022706}
   interactWithPic: {fileID: 559242773}
   interactWithText: {fileID: 1860196486}
+  bookButton: {fileID: 1626184451}
+  bookLayout: {fileID: 1364807008}
 --- !u!114 &1543897803
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10449,7 +10451,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1626184450
 RectTransform:
   m_ObjectHideFlags: 0

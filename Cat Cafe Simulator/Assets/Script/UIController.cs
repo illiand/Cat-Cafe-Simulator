@@ -19,7 +19,7 @@ public class UIController : MonoBehaviour
 
     public Button bagButton;
     public GameObject bagLayout;
-    public bool bagisAble = true;
+    public bool bagVisible = false;
 
     public Canvas battleLayout;
     public bool inBattle;
@@ -38,6 +38,10 @@ public class UIController : MonoBehaviour
     public Image interactWithPic;
     public Text interactWithText;
 
+    public Button bookButton;
+    public Image bookLayout;
+    private bool bookVisible;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -54,7 +58,7 @@ public class UIController : MonoBehaviour
         useToyButton[i].onClick.AddListener(delegate{useItem(j);});
       }
 
-      bagButton.onClick.AddListener(delegate{bagLayout.SetActive(!bagisAble);  bagisAble = !bagisAble;});
+      bagButton.onClick.AddListener(delegate{bagLayout.SetActive(!bagVisible);  bagVisible = !bagVisible;});
 
       giveUpButton.onClick.AddListener(
         delegate
@@ -62,6 +66,14 @@ public class UIController : MonoBehaviour
           GameObject curCat = GameObject.Find(character.GetComponent<Character>().data.curCatStatus.cat.name);
           curCat.GetComponent<catReact>().catLeave();
           inBattle = false;
+        }
+      );
+
+      bookButton.onClick.AddListener(
+        delegate
+        {
+          bookLayout.gameObject.SetActive(!bookVisible);
+          bookVisible = !bookVisible;
         }
       );
     }
