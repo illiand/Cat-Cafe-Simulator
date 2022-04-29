@@ -34,7 +34,6 @@ public class Character : MonoBehaviour
 
     public Canvas mainUI;
 
-    int addPoint = 0;
     // Start is called before the first frame update
     void Start()
     {
@@ -183,7 +182,7 @@ public class Character : MonoBehaviour
       cat1.cost = 0;
       cat1.yesToy = new string[]{"Teaser", "Snack", "Catnip", "Scratcher", "Wagging Fish", "Bell", "Laser Pointer"};
       cat1.noToy = new string[]{};
-      cat1.yesAction = new string[]{"Slowly Approach", "Beckon Approach", "Call Approach", "Lift up", "Holding its head and bottom with gentle hands", "Hold it on your shoulder", "Gentle touch", "Quick Rub", "Harder Rub"};
+      cat1.yesAction = new string[]{"Slowly Approach", "Beckon Approach", "Call Approach", "Lift up", "Holding its head and bottom with gentle hands", "Hold it on your shoulder", "Touch the back ear - Gently touch", "Touch the chin - Gently touch", "Touch the back ear - Quick Rub", "Touch the chin - Quick Rub", "Touch the back ear - Harder Rub", "Touch the chin - Harder Rub"};
       cat1.noAction = new string[]{};
       cat1.characteristic = "Gentle";
       cat1.initFavorability = 1;
@@ -426,15 +425,22 @@ public class Character : MonoBehaviour
 
       data.actionPoint -= 1;
 
+      int addedPoint = 0;
+
       for(int i = 0; i < data.curCatStatus.cat.yesAction.Length; i += 1)
       {
         if(name == data.curCatStatus.cat.yesAction[i])
         {
+          addedPoint = 1;
 
-          // addPoint += 1;
-          // catReaction(name, addPoint);
-          // data.curCatStatus.favorability += 1;
+          if(data.preResult == 1)
+          {
+            addedPoint += 1;
+          }
 
+          catReaction(true, addedPoint);
+
+          data.curCatStatus.favorability += 1;
           data.curCatStatus.resistAction.Add(name);
 
           data.score += 45;
@@ -442,24 +448,18 @@ public class Character : MonoBehaviour
           //add successive bonus
           if(data.preResult == 1)
           {
-            addPoint = 2;
-
-            data.curCatStatus.favorability = Mathf.Min(data.curCatStatus.favorability + 1, 10);
+            data.curCatStatus.favorability = Mathf.Min(data.curCatStatus.favorability + 1, 8);
             data.actionPoint = Mathf.Min(data.actionPoint + 1, 3);
 
             mainUI.GetComponent<UIController>().showHint("The cat likes you a lot, this action has no cost!", new Color(0.0f, 1.0f, 0.0f), 1.5f);
-            data.preResult = -1;
+            data.preResult = 0;
 
             data.score += 62;
-          }else{
-            data.preResult = 1;
-            addPoint = 1;
-
-            //data.curCatStatus.favorability += 1;
           }
-          Debug.Log("ActionPointLeft " + data.actionPoint);
-          Debug.Log("curAddPoint " + addPoint);
-          catReaction(name, addPoint);
+          else
+          {
+            data.preResult = 1;
+          }
 
           return;
         }
@@ -469,8 +469,14 @@ public class Character : MonoBehaviour
       {
         if(name == data.curCatStatus.cat.noAction[i])
         {
-          addPoint = -1;
-          catReaction(name, addPoint);
+          addedPoint = -1;
+
+          if(data.preResult == 1)
+          {
+            addedPoint -= 1;
+          }
+
+          catReaction(true, addedPoint);
 
           data.curCatStatus.favorability -= 1;
 
@@ -478,14 +484,12 @@ public class Character : MonoBehaviour
           {
             data.curCatStatus.favorability = Mathf.Max(data.curCatStatus.favorability - 1, -1);
             mainUI.GetComponent<UIController>().showHint("The cat started loathing...", new Color(0.8f, 0.0f, 0.0f), 1.5f);
-            data.preResult -= 1;
+            data.preResult = 0;
           }
           else
           {
             data.preResult = -1;
           }
-
-          //catReaction(name, addPoint);
 
           return;
         }
@@ -524,9 +528,7 @@ public class Character : MonoBehaviour
       {
         if(name == data.curCatStatus.cat.yesToy[i])
         {
-          addPoint = 2;
-          catReaction(name, addPoint);
-
+          catReaction(false, 2);
           data.curCatStatus.favorability += 2;
 
           data.score += 238;
@@ -539,8 +541,7 @@ public class Character : MonoBehaviour
       {
         if(name == data.curCatStatus.cat.noToy[i])
         {
-          addPoint = -2;
-          catReaction(name, addPoint);
+          catReaction(false, -2);
           data.curCatStatus.favorability -= 2;
 
           return;
@@ -549,251 +550,73 @@ public class Character : MonoBehaviour
 
     }
 
-    void catReaction(string name, int add)
+    void catReaction(bool isAction, int addedPoint)
     {
-      //Debug.Log("current Point " + data.curCatStatus.favorability);
-      //preferred Action
-      for(int i = 0; i < data.curCatStatus.cat.yesAction.Length; i += 1)
+      GameObject.Find(data.curCatStatus.cat.name + " - neko:body").GetComponent<Renderer>().materials[1].mainTexture = GameObject.Find(data.curCatStatus.cat.name).GetComponent<catReact>().Face1;
+
+      if(data.curCatStatus.favorability + addedPoint <= -2)
       {
-        if(name == data.curCatStatus.cat.yesAction[i])
+        //swp face
+        catAnim.SetTrigger("lost");
+        GameObject.Find(data.curCatStatus.cat.name + " - neko:body").GetComponent<Renderer>().materials[1].mainTexture = GameObject.Find(data.curCatStatus.cat.name).GetComponent<catReact>().Face4;
+
+        GameObject.Find(data.curCatStatus.cat.name).GetComponent<catReact>().catLeave();
+      }
+      else if(-1 <= data.curCatStatus.favorability + addedPoint && data.curCatStatus.favorability + addedPoint <= 2)
+      {
+        if(data.curCatStatus.favorability > 2)
         {
-          if(data.curCatStatus.favorability + add < 3)
-          {
-            int r = Random.Range(1, 3);
-            if(r == 1) catAnim.SetTrigger("p1y1");
-            if(r == 2) catAnim.SetTrigger("p1y2");
-            if(r == 3) catAnim.SetTrigger("p1y3");
-          }
+          catAnim.SetTrigger("p2-p1");
+        }
 
-          if(data.curCatStatus.favorability + add >= 3 && data.curCatStatus.favorability + add <= 5)
-          {
-            // Debug.Log("point " + data.curCatStatus.favorability);
-            // Debug.Log("1-2");
-            catAnim.SetTrigger("p1-p2");
+        int r = Random.Range(1, 3);
+        if(r == 1) catAnim.SetTrigger("p1y1");
+        if(r == 2) catAnim.SetTrigger("p1y2");
+        if(r == 3) catAnim.SetTrigger("p1y3");
+      }
+      else if(3 <= data.curCatStatus.favorability + addedPoint && data.curCatStatus.favorability + addedPoint <= 5)
+      {
+        if(data.curCatStatus.favorability <= 2)
+        {
+          data.score += isAction? 105 : 72;
+          catAnim.SetTrigger("p1-p2");
+        }
 
-            data.score += 105;
-
-            if(!data.curCatStatus.p1)
-            {
-              data.money += 50;
-              data.curCatStatus.p1 = true;
-            }
-          }
-
-          if(data.curCatStatus.favorability + add > 5 && data.curCatStatus.favorability + add <= 7)
-          {
-            int r = Random.Range(1, 3);
-            // Debug.Log("animOrder " + r);
-            // Debug.Log("point " + data.curCatStatus.favorability);
-            if(r == 1) catAnim.SetTrigger("approach1");
-            if(r == 2) catAnim.SetTrigger("approach2");
-            if(r == 3) catAnim.SetTrigger("approach3");
-
-            data.score += 208;
-
-            if(!data.curCatStatus.p2)
-            {
-              data.money += 10;
-              data.curCatStatus.p2 = true;
-            }
-          }
-
-          if(data.curCatStatus.favorability + add > 7)
-          {
-            Debug.Log("happy");
-            catAnim.SetTrigger("happy");
-
-            data.score += 592;
-
-            data.money += 20;
-          }
-
-          // data.curCatStatus.favorability += add;
-          // Debug.Log("current Point " + data.curCatStatus.favorability);
-
-
-          if(data.curCatStatus.favorability >= 7)
-          {
-            Debug.Log("happy");
-            catAnim.SetTrigger("happy");
-
-            data.score += 592;
-
-            data.money += 20;
-
-            GameObject.Find(data.curCatStatus.cat.name).GetComponent<catReact>().catHappy();
-          }
-
+        if(!data.curCatStatus.p1)
+        {
+          data.money += 50;
+          data.curCatStatus.p1 = true;
         }
       }
-
-        //not preferred action
-      for(int i = 0; i < data.curCatStatus.cat.noAction.Length; i += 1)
+      else if(data.curCatStatus.favorability + addedPoint <= 7)
       {
-        if(name == data.curCatStatus.cat.noAction[i])
+        if(data.curCatStatus.favorability <= 5)
         {
-          if(data.curCatStatus.favorability + add < 3 && data.curCatStatus.favorability + add > 0)
-          {
-            //swp face
-            GameObject.Find(data.curCatStatus.cat.name + " - neko:body").GetComponent<Renderer>().materials[1].mainTexture = GameObject.Find(data.curCatStatus.cat.name).GetComponent<catReact>().Face2;
+          data.score += isAction? 208 : 143;
+        }
 
-            catAnim.SetTrigger("p1n1");
+        int r = Random.Range(1, 3);
 
-            int r = Random.Range(1, 3);
-            if(r == 1) catAnim.SetTrigger("p1y1");
-            if(r == 2) catAnim.SetTrigger("p1y2");
-            if(r == 3) catAnim.SetTrigger("p1y3");
-          }
+        if(r == 1) catAnim.SetTrigger("approach1");
+        if(r == 2) catAnim.SetTrigger("approach2");
+        if(r == 3) catAnim.SetTrigger("approach3");
 
-          if(data.curCatStatus.favorability + add == 3)
-          {
-              catAnim.SetTrigger("p2-p1");
-          }
-
-          if(data.curCatStatus.favorability + add > 3 && data.curCatStatus.favorability + add < 6)
-          {
-            //swp face
-            GameObject.Find(data.curCatStatus.cat.name + " - neko:body").GetComponent<Renderer>().materials[1].mainTexture = GameObject.Find(data.curCatStatus.cat.name).GetComponent<catReact>().Face3;
-
-            int r = Random.Range(1, 3);
-            if(r == 1) catAnim.SetTrigger("np4");
-            if(r == 2) catAnim.SetTrigger("np5");
-            if(r == 3) catAnim.SetTrigger("np6");
-          }
-
-          if(data.curCatStatus.favorability + add < 0)
-          {
-            //swp face
-            catAnim.SetTrigger("lost");
-            GameObject.Find(data.curCatStatus.cat.name + " - neko:body").GetComponent<Renderer>().materials[1].mainTexture = GameObject.Find(data.curCatStatus.cat.name).GetComponent<catReact>().Face4;
-          }
-
-                if(data.curCatStatus.favorability <= -2)
-                {
-                  //swp face
-                  catAnim.SetTrigger("lost");
-                  GameObject.Find(data.curCatStatus.cat.name + " - neko:body").GetComponent<Renderer>().materials[1].mainTexture = GameObject.Find(data.curCatStatus.cat.name).GetComponent<catReact>().Face4;
-
-                  GameObject.Find(data.curCatStatus.cat.name).GetComponent<catReact>().catLeave();
-
-              }else{
-                GameObject.Find(data.curCatStatus.cat.name + " - neko:body").GetComponent<Renderer>().materials[1].mainTexture = GameObject.Find(data.curCatStatus.cat.name).GetComponent<catReact>().Face3;
-              }
+        if(!data.curCatStatus.p2)
+        {
+          data.money += 10;
+          data.curCatStatus.p2 = true;
         }
       }
-
-      //preferred toy
-      for(int i = 0; i < data.curCatStatus.cat.yesToy.Length; i += 1)
+      else if(data.curCatStatus.favorability + addedPoint > 7)
       {
-        if(name == data.curCatStatus.cat.yesToy[i])
-        {
-          if(data.curCatStatus.favorability + add < 3)
-          {
-            int r = Random.Range(1, 3);
-            // Debug.Log("animOrder " + r);
-            // Debug.Log("point " + data.curCatStatus.favorability);
+        Debug.Log("happy");
+        catAnim.SetTrigger("happy");
 
-            if(r == 1) catAnim.SetTrigger("p1y1");
-            if(r == 2) catAnim.SetTrigger("p1y2");
-            if(r == 3) catAnim.SetTrigger("p1y3");
-          }
+        data.score += 592;
+        data.money += 20;
 
-          if(data.curCatStatus.favorability + add >= 3 && data.curCatStatus.favorability + add <= 5)
-          {
-            // Debug.Log("point " + data.curCatStatus.favorability);
-            // Debug.Log("1-2");
-            catAnim.SetTrigger("p1-p2");
-
-            data.score += 72;
-
-            if(!data.curCatStatus.p1)
-            {
-              data.money += 50;
-              data.curCatStatus.p1 = true;
-            }
-          }
-
-          if(data.curCatStatus.favorability + add >= 6 && data.curCatStatus.favorability + add < 7)
-          {
-            int r = Random.Range(1, 3);
-            // Debug.Log("animOrder " + r);
-            // Debug.Log("point " + data.curCatStatus.favorability);
-            if(r == 1) catAnim.SetTrigger("approach1");
-            if(r == 2) catAnim.SetTrigger("approach2");
-            if(r == 3) catAnim.SetTrigger("approach3");
-
-            data.score += 143;
-
-            if(!data.curCatStatus.p2)
-            {
-              data.money += 10;
-              data.curCatStatus.p2 = true;
-            }
-          }
-
-          if(data.curCatStatus.favorability + add > 7)
-          {
-            Debug.Log("happy");
-            catAnim.SetTrigger("happy");
-
-            data.score += 592;
-
-            data.money += 20;
-
-            GameObject.Find(data.curCatStatus.cat.name).GetComponent<catReact>().catHappy();
-          }
-        }
+        GameObject.Find(data.curCatStatus.cat.name).GetComponent<catReact>().catHappy();
       }
-
-        //not preferred toy
-      for(int i = 0; i < data.curCatStatus.cat.noToy.Length; i += 1)
-      {
-        if(name == data.curCatStatus.cat.noToy[i])
-        {
-          if(data.curCatStatus.favorability + add < 3 && data.curCatStatus.favorability + add > 0)
-          {
-            //swp face
-            GameObject.Find(data.curCatStatus.cat.name + " - neko:body").GetComponent<Renderer>().materials[1].mainTexture = GameObject.Find(data.curCatStatus.cat.name).GetComponent<catReact>().Face2;
-
-            catAnim.SetTrigger("p1n1");
-
-            int r = Random.Range(1, 3);
-            if(r == 1) catAnim.SetTrigger("p1y1");
-            if(r == 2) catAnim.SetTrigger("p1y2");
-            if(r == 3) catAnim.SetTrigger("p1y3");
-          }
-
-          if(data.curCatStatus.favorability + add == 3)
-          {
-              catAnim.SetTrigger("p2-p1");
-          }
-
-          if(data.curCatStatus.favorability + add > 3 && data.curCatStatus.favorability + add < 6)
-          {
-            //swp face
-            GameObject.Find(data.curCatStatus.cat.name + " - neko:body").GetComponent<Renderer>().materials[1].mainTexture = GameObject.Find(data.curCatStatus.cat.name).GetComponent<catReact>().Face3;
-
-            int r = Random.Range(1, 3);
-            if(r == 1) catAnim.SetTrigger("np4");
-            if(r == 2) catAnim.SetTrigger("np5");
-            if(r == 3) catAnim.SetTrigger("np6");
-          }
-
-              if(data.curCatStatus.favorability <= -2)
-              {
-                  //swp face
-                  GameObject.Find(data.curCatStatus.cat.name + " - neko:body").GetComponent<Renderer>().materials[1].mainTexture = GameObject.Find(data.curCatStatus.cat.name).GetComponent<catReact>().Face4;
-                  catAnim.SetTrigger("lost");
-
-                  GameObject.Find(data.curCatStatus.cat.name).GetComponent<catReact>().catLeave();
-              }
-              else
-              {
-                GameObject.Find(data.curCatStatus.cat.name + " - neko:body").GetComponent<Renderer>().materials[1].mainTexture = GameObject.Find(data.curCatStatus.cat.name).GetComponent<catReact>().Face1;
-              }
-        }
-      }
-
     }
 
     public class GameData

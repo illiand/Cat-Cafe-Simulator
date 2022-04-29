@@ -33,14 +33,14 @@ public class buttonManager : MonoBehaviour
 
         p = player.GetComponent<Character>().data.curCatStatus.favorability;
 
-        if(p < 4)
+        if(p < 3)
         {
             action1.SetActive(true);
             action2.SetActive(false);
             action3.SetActive(false);
         }
 
-        if(p >= 4 && p < 6)
+        if(p >= 3 && p <= 5)
         {
             action1.SetActive(false);
             action2.SetActive(true);
