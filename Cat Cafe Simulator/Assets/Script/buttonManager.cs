@@ -40,14 +40,14 @@ public class buttonManager : MonoBehaviour
             action3.SetActive(false);
         }
 
-        if(p >= 4 && p < 7)
+        if(p >= 4 && p < 6)
         {
             action1.SetActive(false);
             action2.SetActive(true);
             action3.SetActive(false);
         }
 
-        if(p > 7)
+        if(p >= 6)
         {
             action1.SetActive(false);
             action2.SetActive(false);
