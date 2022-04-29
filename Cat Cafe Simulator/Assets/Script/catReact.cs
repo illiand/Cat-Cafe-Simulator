@@ -26,7 +26,7 @@ public class catReact : MonoBehaviour
 
     GameObject ui;
 
-    float timer;
+    float curWalkingTime;
 
     // Start is called before the first frame update
     void Start()
@@ -44,21 +44,42 @@ public class catReact : MonoBehaviour
     void Update()
     {
         checkCat();
-        curTime -= Time.deltaTime;
-        timer += Time.deltaTime;
 
         if(r == 3)
         {
+            // if(curWalkingTime < 1)
+            // {
+            //
+            // }
+            // else if(curWalkingTime < 6)
+            // {
+            //   transform.eulerAngles = new Vector3(
+            //     transform.eulerAngles.x,
+            //     transform.eulerAngles.y + Time.deltaTime * (180.0f / 5.0f),
+            //     transform.eulerAngles.z
+            //   );
+            //
+            //
+            // }
+            // else
+            // {
+            //   transform.GetComponent<Rigidbody>().velocity = new Vector3(v.x / animTime, 0,v.y / animTime);
+            //   transform.LookAt(new Vector3((previousV + v).x, transform.position.y, (previousV + v).y));
+            //
+            //   curTime -= Time.deltaTime;
+            // }
+            //
+            // curWalkingTime += Time.deltaTime;
+
             transform.GetComponent<Rigidbody>().velocity = new Vector3(v.x / animTime, 0,v.y / animTime);
-
-            // StartCoroutine(WaitForRotation());
-
             transform.LookAt(new Vector3((previousV + v).x, transform.position.y, (previousV + v).y));
 
+            curTime -= Time.deltaTime;
         }
         else
         {
           transform.GetComponent<Rigidbody>().velocity = new Vector3(0, 0, 0);
+          curTime -= Time.deltaTime;
         }
     }
 
@@ -73,6 +94,8 @@ public class catReact : MonoBehaviour
               r = Random.Range(1, 4);
             }
 
+            disableAnimation();
+
             if(r == 1 || r == 2)
             {
               animTime = Random.Range(3, 6);
@@ -85,7 +108,6 @@ public class catReact : MonoBehaviour
                 moveForward(new Vector2(xMovement, yMovement), Random.Range(4.0f, 7.0f));
             }
 
-            disableAnimation();
             catAnim.SetBool(preStatus + "-" + r, true);
         }
 
@@ -133,6 +155,8 @@ public class catReact : MonoBehaviour
       previousV = new Vector2(transform.position.x, transform.position.z);
       animTime = duration;
       curTime = duration;
+
+      curWalkingTime = 0;
     }
 
     public void catLeave()
