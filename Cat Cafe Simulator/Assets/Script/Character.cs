@@ -130,7 +130,9 @@ public class Character : MonoBehaviour
 
           initRound(catsInScene[index]);
 
-          catsInScene[index].GetComponent<Rigidbody>().isKinematic = false;
+          catsInScene[index].GetComponent<Rigidbody>().detectCollisions = false;
+          catsInScene[index].GetComponent<Rigidbody>().useGravity = false;
+
           catsInScene[index].transform.LookAt(transform.position);
           GameObject.Find("Main Camera").transform.LookAt(new Vector3(catsInScene[index].transform.position.x, transform.position.y, catsInScene[index].transform.position.z));
           catsInScene[index].GetComponent<catReact>().catAnim.Play("Base Layer.pa");
@@ -603,6 +605,8 @@ public class Character : MonoBehaviour
                   data.score += 592;
 
                   data.money += 20;
+
+                  GameObject.Find(data.curCatStatus.cat.name).GetComponent<catReact>().catHappy();
                 }
               }
         }
@@ -713,6 +717,8 @@ public class Character : MonoBehaviour
                   data.score += 592;
 
                   data.money += 20;
+
+                  GameObject.Find(data.curCatStatus.cat.name).GetComponent<catReact>().catHappy();
                 }
               }
         }

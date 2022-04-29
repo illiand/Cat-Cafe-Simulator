@@ -164,23 +164,30 @@ public class catReact : MonoBehaviour
       moveForward(moveDis, Random.Range(2.0f, 3.0f));
       setCatStatus(false);
 
-      GetComponent<Rigidbody>().isKinematic = true;
+      GetComponent<Rigidbody>().detectCollisions = true;
+      GetComponent<Rigidbody>().useGravity = true;
     }
 
     public void catHappy()
     {
       isIdle = true;
       disableAnimation();
-      catAnim.Play("Base Layer.idle1");
       r = 1;
+      animTime = 6;
+      curTime = 6;
 
-      setCatStatus(false);
-      GetComponent<Rigidbody>().isKinematic = true;
+      setCatStatus(true);
+      GetComponent<Rigidbody>().detectCollisions = true;
+      GetComponent<Rigidbody>().useGravity = true;
+
+      ui.GetComponent<UIController>().inBattle = false;
 
       if(this.name == "British Shorthhair")
       {
         GameObject.Find("Character").GetComponent<Character>().data.quest1 = 1;
       }
+
+      ui.GetComponent<UIController>().showHint(this.name + " feels happy, great job!", new Color(0.0f, 1.0f, 0.0f), 2.5f);
     }
 
     public void setCatStatus(bool success)
