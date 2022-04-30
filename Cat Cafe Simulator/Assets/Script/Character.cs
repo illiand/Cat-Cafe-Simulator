@@ -34,9 +34,20 @@ public class Character : MonoBehaviour
 
     public Canvas mainUI;
 
+    public AudioClip blow;
+    public AudioClip lick1;
+    public AudioClip lick2;
+    public AudioClip meow1;
+    public AudioClip meow2;
+    public AudioClip purr;
+
+    private AudioSource source;
+
     // Start is called before the first frame update
     void Start()
-    {
+    { 
+      source = GetComponent<AudioSource>();
+
       initData();
 
       playerAction();
@@ -556,7 +567,10 @@ public class Character : MonoBehaviour
 
       if(data.curCatStatus.favorability + addedPoint <= -2)
       {
-        //swp face
+        //audio
+        source.clip = blow;
+        if(!source.isPlaying) source.Play();
+
         catAnim.SetTrigger("lost");
         GameObject.Find(data.curCatStatus.cat.name + " - neko:body").GetComponent<Renderer>().materials[1].mainTexture = GameObject.Find(data.curCatStatus.cat.name).GetComponent<catReact>().Face4;
         mainUI.GetComponent<UIController>().showHint(data.curCatStatus.cat.name + " feels angry, it leaves you", new Color(0.8f, 0.0f, 0.0f), 2.5f);
@@ -565,19 +579,36 @@ public class Character : MonoBehaviour
       else if(-1 <= data.curCatStatus.favorability + addedPoint && data.curCatStatus.favorability + addedPoint <= 2)
       {
         if(data.curCatStatus.favorability > 2)
-        {
+        { 
+          source.clip = meow2;
+          if(!source.isPlaying) source.Play();
           catAnim.SetTrigger("p2-p1");
         }
 
         int r = Random.Range(1, 3);
+
         if(r == 1) catAnim.SetTrigger("p1y1");
-        if(r == 2) catAnim.SetTrigger("p1y2");
-        if(r == 3) catAnim.SetTrigger("p1y3");
+        if(r == 2) 
+        {
+          source.clip = lick1;
+          if(!source.isPlaying) source.Play();
+          catAnim.SetTrigger("p1y2");
+        }
+        if(r == 3)
+        { 
+          source.clip = lick2;
+          if(!source.isPlaying) source.Play();
+          catAnim.SetTrigger("p1y3");
+        }
+          
       }
       else if(3 <= data.curCatStatus.favorability + addedPoint && data.curCatStatus.favorability + addedPoint <= 5)
       {
         if(data.curCatStatus.favorability <= 2)
-        {
+        { 
+          source.clip = meow1;
+          if(!source.isPlaying) source.Play();
+
           data.score += isAction? 105 : 72;
           catAnim.SetTrigger("p1-p2");
         }
@@ -595,6 +626,9 @@ public class Character : MonoBehaviour
           data.score += isAction? 208 : 143;
         }
 
+        source.clip = meow1;
+        if(!source.isPlaying) source.Play();
+
         int r = Random.Range(1, 3);
 
         if(r == 1) catAnim.SetTrigger("approach1");
@@ -610,6 +644,10 @@ public class Character : MonoBehaviour
       else if(data.curCatStatus.favorability + addedPoint > 7)
       {
         Debug.Log("happy");
+
+        source.clip = purr;
+        if(!source.isPlaying) source.Play();
+
         catAnim.SetTrigger("happy");
 
         data.score += 592;

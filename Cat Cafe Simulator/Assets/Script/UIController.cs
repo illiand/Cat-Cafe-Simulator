@@ -68,6 +68,7 @@ public class UIController : MonoBehaviour
       giveUpButton.onClick.AddListener(
         delegate
         { 
+
           GameObject curCat = GameObject.Find(character.GetComponent<Character>().data.curCatStatus.cat.name);
           
           StartCoroutine(curCat.GetComponent<catReact>().WaitForRotation());
