@@ -45,7 +45,7 @@ public class Character : MonoBehaviour
 
     // Start is called before the first frame update
     void Start()
-    { 
+    {
       source = GetComponent<AudioSource>();
 
       initData();
@@ -62,11 +62,6 @@ public class Character : MonoBehaviour
       }
 
       handleUserInput();
-
-      if(data.money <= 0 && data.actionPoint == 0)
-      {
-        Debug.Log("GG");
-      }
     }
 
     void handleUserInput()
@@ -128,7 +123,7 @@ public class Character : MonoBehaviour
             }
           }
 
-          if(data.quest1 == 0)
+          if(data.quest1 == -1)
           {
             if(catsInScene[index].name != "British Shorthhair")
             {
@@ -136,6 +131,11 @@ public class Character : MonoBehaviour
 
               return;
             }
+          }
+
+          if(data.curCatResult[catArrayIndex] != 0)
+          {
+            return;
           }
 
           initRound(catsInScene[index]);
@@ -398,6 +398,7 @@ public class Character : MonoBehaviour
           catAnim = cat.GetComponent<Animator>();
 
           data.money -= cats[i].cost;
+          data.moneyUsedOnCat += cats[i].cost;
           data.actionPoint = 3;
           data.preResult = 0;
           data.preUsedToy = "";
@@ -456,6 +457,8 @@ public class Character : MonoBehaviour
 
           data.score += 45;
 
+          data.correctActionCount += 1;
+
           //add successive bonus
           if(data.preResult == 1)
           {
@@ -490,6 +493,8 @@ public class Character : MonoBehaviour
           catReaction(true, addedPoint);
 
           data.curCatStatus.favorability -= 1;
+
+          data.wrongActionCount += 1;
 
           if(data.preResult == -1)
           {
@@ -544,6 +549,8 @@ public class Character : MonoBehaviour
 
           data.score += 238;
 
+          data.correctToyCount += 1;
+
           return;
         }
       }
@@ -554,6 +561,8 @@ public class Character : MonoBehaviour
         {
           catReaction(false, -2);
           data.curCatStatus.favorability -= 2;
+
+          data.wrongToyCount += 1;
 
           return;
         }
@@ -579,7 +588,7 @@ public class Character : MonoBehaviour
       else if(-1 <= data.curCatStatus.favorability + addedPoint && data.curCatStatus.favorability + addedPoint <= 2)
       {
         if(data.curCatStatus.favorability > 2)
-        { 
+        {
           source.clip = meow2;
           if(!source.isPlaying) source.Play();
           catAnim.SetTrigger("p2-p1");
@@ -588,24 +597,24 @@ public class Character : MonoBehaviour
         int r = Random.Range(1, 3);
 
         if(r == 1) catAnim.SetTrigger("p1y1");
-        if(r == 2) 
+        if(r == 2)
         {
           source.clip = lick1;
           if(!source.isPlaying) source.Play();
           catAnim.SetTrigger("p1y2");
         }
         if(r == 3)
-        { 
+        {
           source.clip = lick2;
           if(!source.isPlaying) source.Play();
           catAnim.SetTrigger("p1y3");
         }
-          
+
       }
       else if(3 <= data.curCatStatus.favorability + addedPoint && data.curCatStatus.favorability + addedPoint <= 5)
       {
         if(data.curCatStatus.favorability <= 2)
-        { 
+        {
           source.clip = meow1;
           if(!source.isPlaying) source.Play();
 
@@ -675,6 +684,12 @@ public class Character : MonoBehaviour
       public string preUsedToy;
 
       public int[] curCatResult;
+      public int correctActionCount;
+      public int wrongActionCount;
+      public int correctToyCount;
+      public int wrongToyCount;
+      public int moneyUsedOnCat;
+      public int moneyUsedOnToy;
     }
 
     public class Cat

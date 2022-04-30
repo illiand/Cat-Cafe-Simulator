@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using UnityEngine.SceneManagement;
 
 public class UIController : MonoBehaviour
 {
@@ -47,6 +48,14 @@ public class UIController : MonoBehaviour
 
     public Text goalText;
 
+    public Button leaveButton;
+    public Image resultLayout;
+    public Text[] resultText;
+    public Button returnButton;
+
+    private bool resultRunning = false;
+    private float resultLayoutA;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -67,10 +76,10 @@ public class UIController : MonoBehaviour
 
       giveUpButton.onClick.AddListener(
         delegate
-        { 
+        {
 
           GameObject curCat = GameObject.Find(character.GetComponent<Character>().data.curCatStatus.cat.name);
-          
+
           StartCoroutine(curCat.GetComponent<catReact>().WaitForRotation());
           StartCoroutine(curCat.GetComponent<catReact>().WaitForLeave());
 
@@ -94,6 +103,52 @@ public class UIController : MonoBehaviour
           Destroy(instructionLayout.gameObject);
         }
       );
+
+      leaveButton.onClick.AddListener(
+        delegate
+        {
+          if(resultRunning)
+          {
+            return;
+          }
+
+          resultLayout.gameObject.SetActive(true);
+
+          resultLayout.color = new Color(0.0f, 0.0f, 0.0f, 0.0f);
+          returnButton.GetComponent<Image>().color = new Color(1.0f, 1.0f, 0.0f, 0.0f);
+
+          for (int i = 0; i < resultText.Length; i += 1)
+          {
+            resultText[i].color = new Color(1.0f, 1.0f, 0.0f, 0.0f);
+          }
+
+          int catSuccussCount = 0;
+
+          for (int i = 0; i < 8; i += 1)
+          {
+            if(character.GetComponent<Character>().data.curCatResult[i] == 1)
+            {
+              catSuccussCount += 1;
+            }
+          }
+
+          resultText[6].text = catSuccussCount + "/8";
+          resultText[7].text = character.GetComponent<Character>().data.correctActionCount + "/" + character.GetComponent<Character>().data.wrongActionCount;
+          resultText[8].text = character.GetComponent<Character>().data.correctToyCount + "/" + character.GetComponent<Character>().data.wrongToyCount;
+          resultText[9].text = "$" + character.GetComponent<Character>().data.moneyUsedOnCat;
+          resultText[10].text = "$" + character.GetComponent<Character>().data.moneyUsedOnToy;
+          resultText[12].text = character.GetComponent<Character>().data.score + "";
+
+          resultRunning = true;
+        }
+      );
+
+      returnButton.onClick.AddListener(
+        delegate
+        {
+          SceneManager.LoadScene("MainMenu");
+        }
+      );
     }
 
     void buyItem(int index)
@@ -109,6 +164,8 @@ public class UIController : MonoBehaviour
 
       character.GetComponent<Character>().data.curToys[index] += 3;
       character.GetComponent<Character>().data.money -= character.GetComponent<Character>().toys[index].cost;
+
+      character.GetComponent<Character>().data.moneyUsedOnToy += character.GetComponent<Character>().toys[index].cost;
     }
 
     void useItem(int index)
@@ -132,6 +189,9 @@ public class UIController : MonoBehaviour
           itemCount[i].color = Color.red;
         }
       }
+
+      processResult();
+      bindVisibilityWithLeaveButton();
 
       if(character.GetComponent<Character>().data.quest1 == 0)
       {
@@ -334,5 +394,44 @@ public class UIController : MonoBehaviour
       }
 
       hintCurTime += Time.deltaTime;
+    }
+
+    private void bindVisibilityWithLeaveButton()
+    {
+      bool visible = true;
+
+      for (int i = 0; i < 8; i += 1)
+      {
+        if(character.GetComponent<Character>().data.curCatResult[i] == 0 && character.GetComponent<Character>().cats[i].cost < character.GetComponent<Character>().data.money)
+        {
+          visible = false;
+
+          break;
+        }
+      }
+
+      leaveButton.gameObject.SetActive(visible);
+    }
+
+    private void processResult()
+    {
+      if(resultRunning)
+      {
+        if(resultLayoutA < 3.0f)
+        {
+          resultLayout.color = new Color(0.0f, 0.0f, 0.0f, resultLayoutA / 3.0f);
+        }
+        else if(resultLayoutA < 6.0f)
+        {
+          returnButton.GetComponent<Image>().color = new Color(0.0f, 1.0f, 0.0f, (resultLayoutA - 3.0f) / 3.0f);
+
+          for (int i = 0; i < resultText.Length; i += 1)
+          {
+            resultText[i].color = new Color(1.0f, 1.0f, 0.0f, (resultLayoutA - 3.0f) / 3.0f);
+          }
+        }
+
+        resultLayoutA += Time.deltaTime;
+      }
     }
 }

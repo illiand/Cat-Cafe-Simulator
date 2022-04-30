@@ -26,8 +26,6 @@ public class catReact : MonoBehaviour
 
     GameObject ui;
 
-    float curWalkingTime;
-
     // Start is called before the first frame update
     void Start()
     {
@@ -47,30 +45,6 @@ public class catReact : MonoBehaviour
 
         if(r == 3)
         {
-            // if(curWalkingTime < 1)
-            // {
-            //
-            // }
-            // else if(curWalkingTime < 6)
-            // {
-            //   transform.eulerAngles = new Vector3(
-            //     transform.eulerAngles.x,
-            //     transform.eulerAngles.y + Time.deltaTime * (180.0f / 5.0f),
-            //     transform.eulerAngles.z
-            //   );
-            //
-            //
-            // }
-            // else
-            // {
-            //   transform.GetComponent<Rigidbody>().velocity = new Vector3(v.x / animTime, 0,v.y / animTime);
-            //   transform.LookAt(new Vector3((previousV + v).x, transform.position.y, (previousV + v).y));
-            //
-            //   curTime -= Time.deltaTime;
-            // }
-            //
-            // curWalkingTime += Time.deltaTime;
-
             float timer = 1.5f;
             float curTimer = 0;
             if(curTimer == timer)
@@ -112,7 +86,7 @@ public class catReact : MonoBehaviour
               curTime = animTime;
             }
             else if(r == 3)
-            {   
+            {
                 //catAnim.SetTrigger("b-idle");
 
                 float xMovement = Random.Range(0, 2) == 0 ? Random.Range(-4.0f, -1.5f) : Random.Range(1.5f, 4.0f);
@@ -155,7 +129,7 @@ public class catReact : MonoBehaviour
     }
 
     public IEnumerator WaitForLeave()
-    { 
+    {
       catLeave();
 
       yield return new WaitForSeconds(2f);
@@ -167,8 +141,6 @@ public class catReact : MonoBehaviour
       previousV = new Vector2(transform.position.x, transform.position.z);
       animTime = duration;
       curTime = duration;
-
-      curWalkingTime = 0;
     }
 
     public void catLeave()
@@ -204,7 +176,7 @@ public class catReact : MonoBehaviour
       GetComponent<Rigidbody>().detectCollisions = true;
       GetComponent<Rigidbody>().useGravity = true;
     }
-    
+
 
     public void catHappy()
     {
