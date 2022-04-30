@@ -559,8 +559,8 @@ public class Character : MonoBehaviour
         //swp face
         catAnim.SetTrigger("lost");
         GameObject.Find(data.curCatStatus.cat.name + " - neko:body").GetComponent<Renderer>().materials[1].mainTexture = GameObject.Find(data.curCatStatus.cat.name).GetComponent<catReact>().Face4;
-
-        GameObject.Find(data.curCatStatus.cat.name).GetComponent<catReact>().catLeave();
+        mainUI.GetComponent<UIController>().showHint(data.curCatStatus.cat.name + " feels angry, it leaves you", new Color(0.8f, 0.0f, 0.0f), 2.5f);
+        //GameObject.Find(data.curCatStatus.cat.name).GetComponent<catReact>().catLeave();
       }
       else if(-1 <= data.curCatStatus.favorability + addedPoint && data.curCatStatus.favorability + addedPoint <= 2)
       {

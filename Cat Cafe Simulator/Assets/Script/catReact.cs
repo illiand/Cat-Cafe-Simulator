@@ -71,6 +71,16 @@ public class catReact : MonoBehaviour
             //
             // curWalkingTime += Time.deltaTime;
 
+            float timer = 1.5f;
+            float curTimer = 0;
+            if(curTimer == timer)
+            {
+              catAnim.SetTrigger("b-idle");
+            }else{
+              curTimer += Time.deltaTime;
+              catAnim.Play("Base Layer.idle3");
+            }
+
             transform.GetComponent<Rigidbody>().velocity = new Vector3(v.x / animTime, 0,v.y / animTime);
             transform.LookAt(new Vector3((previousV + v).x, transform.position.y, (previousV + v).y));
 
@@ -102,7 +112,9 @@ public class catReact : MonoBehaviour
               curTime = animTime;
             }
             else if(r == 3)
-            {
+            {   
+                //catAnim.SetTrigger("b-idle");
+
                 float xMovement = Random.Range(0, 2) == 0 ? Random.Range(-4.0f, -1.5f) : Random.Range(1.5f, 4.0f);
                 float yMovement = Random.Range(0, 2) == 0 ? Random.Range(-4.0f, -1.5f) : Random.Range(1.5f, 4.0f);
                 moveForward(new Vector2(xMovement, yMovement), Random.Range(4.0f, 7.0f));
@@ -118,7 +130,7 @@ public class catReact : MonoBehaviour
           //catAnim.Play("leave");
           if(curPoint <= -2)
           {
-            catAnim.Play("Base Layer.standUp");
+            //catAnim.SetTrigger("b-idle");
             GameObject.Find("Canvas").GetComponent<UIController>().inBattle = false;
 
             StartCoroutine(WaitForRotation());
@@ -127,7 +139,7 @@ public class catReact : MonoBehaviour
         }
     }
 
-    IEnumerator WaitForRotation()
+    public IEnumerator WaitForRotation()
     {
       float time = 0;
 
@@ -142,8 +154,8 @@ public class catReact : MonoBehaviour
       transform.rotation = target;
     }
 
-    IEnumerator WaitForLeave()
-    {
+    public IEnumerator WaitForLeave()
+    { 
       catLeave();
 
       yield return new WaitForSeconds(2f);
@@ -163,6 +175,7 @@ public class catReact : MonoBehaviour
     {
       isIdle = true;
       disableAnimation();
+
       catAnim.Play("Base Layer.idle3");
       r = 3;
 
@@ -191,6 +204,7 @@ public class catReact : MonoBehaviour
       GetComponent<Rigidbody>().detectCollisions = true;
       GetComponent<Rigidbody>().useGravity = true;
     }
+    
 
     public void catHappy()
     {
