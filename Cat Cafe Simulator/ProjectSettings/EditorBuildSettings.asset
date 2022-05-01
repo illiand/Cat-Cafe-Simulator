@@ -6,9 +6,9 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/CoffeeShop.unity
-    guid: 478be451e0440f24197dd4e792a6194d
-  - enabled: 1
     path: Assets/Scenes/MainMenu.unity
     guid: 78addc77d730f4f38a4a7d5e73530376
+  - enabled: 1
+    path: Assets/Scenes/CoffeeShop.unity
+    guid: 478be451e0440f24197dd4e792a6194d
   m_configObjects: {}
