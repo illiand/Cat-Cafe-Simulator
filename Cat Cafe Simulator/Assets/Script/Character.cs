@@ -181,6 +181,7 @@ public class Character : MonoBehaviour
       data = new GameData();
       data.money = 100;
       data.UIMoney = 100;
+      data.quest1 = -1;
 
       data.curToys = new int[]{0, 0, 0, 0, 0, 0, 0};
       data.curCatResult = new int[]{0, 0, 0, 0, 0, 0, 0, 0};
